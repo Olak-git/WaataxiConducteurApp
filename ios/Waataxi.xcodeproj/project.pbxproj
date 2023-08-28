@@ -53,6 +53,7 @@
 		EEF0ED6F86AC49629BD4CCF1 /* MontserratAlternates-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 64351909DD27498CA5E55469 /* MontserratAlternates-BoldItalic.ttf */; };
 		F1B38395ED6342058381C403 /* MontserratAlternates-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BDB4E7E9B47345B8AE9B0AB6 /* MontserratAlternates-Thin.ttf */; };
 		F4219DD2744747EB97662B39 /* MontserratAlternates-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 244F741975054452B3A5B6E0 /* MontserratAlternates-ExtraBoldItalic.ttf */; };
+		C6A34BE111B049D1AC67C0C8 /* times-new-roman.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 89E08271766D4A748B527590 /* times-new-roman.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -139,6 +140,7 @@
 		ED56650C6CD04F8D812C2BEE /* YanoneKaffeesatz-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "YanoneKaffeesatz-Medium.ttf"; path = "../assets/fonts/YanoneKaffeesatz-Medium.ttf"; sourceTree = "<group>"; };
 		F86B203B0EDB40A7B1E28FF9 /* PatrickHand-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PatrickHand-Regular.ttf"; path = "../assets/fonts/PatrickHand-Regular.ttf"; sourceTree = "<group>"; };
 		FDCF954F82F74BDE9671B2A0 /* YatraOne-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "YatraOne-Regular.ttf"; path = "../assets/fonts/YatraOne-Regular.ttf"; sourceTree = "<group>"; };
+		89E08271766D4A748B527590 /* times-new-roman.ttf */ = {isa = PBXFileReference; name = "times-new-roman.ttf"; path = "../assets/fonts/times-new-roman.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -218,6 +220,7 @@
 				BDB4E7E9B47345B8AE9B0AB6 /* MontserratAlternates-Thin.ttf */,
 				DA70643A9AEA45E88E5660B0 /* MontserratAlternates-ThinItalic.ttf */,
 				FDCF954F82F74BDE9671B2A0 /* YatraOne-Regular.ttf */,
+				89E08271766D4A748B527590 /* times-new-roman.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -449,6 +452,7 @@
 				F1B38395ED6342058381C403 /* MontserratAlternates-Thin.ttf in Resources */,
 				A5AF98B965954D208D646B1E /* MontserratAlternates-ThinItalic.ttf in Resources */,
 				E807D5DE52444BF4B9647015 /* YatraOne-Regular.ttf in Resources */,
+				C6A34BE111B049D1AC67C0C8 /* times-new-roman.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
