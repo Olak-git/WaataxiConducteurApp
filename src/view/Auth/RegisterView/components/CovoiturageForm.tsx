@@ -4,7 +4,7 @@ import { Icon } from '@rneui/base';
 import tw from 'twrnc';
 import InputForm from '../../../../components/InputForm';
 import { ColorsEncr } from '../../../../assets/styles';
-import { otp_authentication } from '../../../../data/data';
+import { otp_authentication, polices } from '../../../../data/data';
 
 interface CovoiturageFormProps {
     inputs: any,
@@ -36,7 +36,7 @@ const CovoiturageForm: React.FC<CovoiturageFormProps> = ({ inputs, handleOnChang
         
         <View style={[ tw`px-10`, {width: width} ]}>
             <ScrollView showsVerticalScrollIndicator={false}>
-                <Text style={[ tw`text-slate-400 text-xs text-center mb-2 mt-5` ]}>Si vous souhaitez faire uniquement du covoiturage, vous êtes au bon endroit.</Text>
+                <Text style={[ tw`text-slate-400 text-xs text-center mb-2 mt-5`, {fontFamily: polices.times_new_roman} ]}>Si vous souhaitez faire uniquement du covoiturage, vous êtes au bon endroit.</Text>
                 <InputForm
                     placeholder='Saisissez votre Nom'
                     value={inputs.nom}
@@ -84,8 +84,8 @@ const CovoiturageForm: React.FC<CovoiturageFormProps> = ({ inputs, handleOnChang
                         />
                     </>
                 )}
-                <Text style={[tw`text-black font-medium text-lg mt-2`]}>Document d'identification</Text>
-                <Text style={[tw`text-slate-400 mb-5`]}>Veuillez joindre les documents d'identification</Text>
+                <Text style={[tw`text-black font-medium text-lg mt-2`, {fontFamily: polices.times_new_roman}]}>Document d'identification</Text>
+                <Text style={[tw`text-slate-400 mb-5`, {fontFamily: polices.times_new_roman}]}>Veuillez joindre les documents d'identification</Text>
                 <InputForm
                     label='Permis de conduire'
                     labelStyle={[tw`uppercase`]}
@@ -148,16 +148,16 @@ const CovoiturageForm: React.FC<CovoiturageFormProps> = ({ inputs, handleOnChang
                 />
                     <View style={[tw`flex-row justify-between items-center my-3`]}>
                         <View style={tw`flex-1 mr-1`}>
-                            <Text style={tw`text-gray-500 text-lg`}>Photo de profil</Text>
+                            <Text style={[tw`text-gray-500 text-lg`, {fontFamily: polices.times_new_roman}]}>Photo de profil</Text>
                             {avatar && (
                                 <Text onPress={() => {
                                     setAvatar(null)
                                     handleOnChange('profil', {});
                                     handleError('img', null);
-                                }} style={[tw`text-center text-xs text-gray-400 border border-red-500 rounded-2xl p-1`, {width: 70}]}>annuler</Text>
+                                }} style={[tw`text-center text-xs text-gray-400 border border-red-500 rounded-2xl p-1`, {width: 70, fontFamily: polices.times_new_roman}]}>annuler</Text>
                             )}
                             {errors.profil && (
-                                <Text style={tw`text-orange-700 text-sm`}>{errors.profil}</Text>
+                                <Text style={[tw`text-orange-700 text-sm`, {fontFamily: polices.times_new_roman}]}>{errors.profil}</Text>
                             )}
                         </View>
                         <Pressable

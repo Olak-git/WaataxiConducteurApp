@@ -11,6 +11,7 @@ import { baseUri, fetchUri, toast, validatePassword } from '../../../functions/f
 import { useDispatch, useSelector } from 'react-redux';
 import { clone } from '../../../functions/helperFunction';
 import { setUser } from '../../../feature/user.slice';
+import { polices } from '../../../data/data';
 
 interface UpdatePasswordViewProps {
     navigation: any
@@ -127,7 +128,7 @@ const UpdatePasswordView:React.FC<UpdatePasswordViewProps> = ({ navigation }) =>
                         <View style={[ tw`items-center my-10` ]}>
                             <Text style={[tw`text-black uppercase`, {fontSize: 45, fontFamily: Platform.OS == 'android' ? 'ShadowsIntoLight-Regular' : 'PatrickHand-Regular'}]}>waa<Text style={{color: ColorsEncr.main}}>taxi</Text></Text>
                         </View>
-                        <Text style={[ tw`text-center px-5 text-black font-normal text-base mb-5` ]}>Veuillez confirmer votre mot de passe.</Text>
+                        <Text style={[ tw`text-center px-5 text-black font-normal text-base mb-5`, {fontFamily: polices.times_new_roman} ]}>Veuillez confirmer votre mot de passe.</Text>
                         
                         <View style={[ tw`bg-white px-3` ]}>
         
@@ -170,6 +171,7 @@ const UpdatePasswordView:React.FC<UpdatePasswordViewProps> = ({ navigation }) =>
                                 mode='contained'
                                 contentStyle={[tw`p-2`]}
                                 style={tw``}
+                                labelStyle={{ fontFamily: polices.times_new_roman }}
                             >Valider</Button>
 
                         </View>

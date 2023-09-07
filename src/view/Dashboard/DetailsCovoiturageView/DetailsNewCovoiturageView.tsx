@@ -18,6 +18,7 @@ import { ModalValidationForm } from '../../../components/ModalValidationForm';
 import FlashMessage from '../../../components/FlashMessage';
 import { setReload } from '../../../feature/reload.slice';
 import { refreshHistoriqueCovoiturages } from '../../../feature/refresh.slice';
+import { polices } from '../../../data/data';
 
 interface RowProps {
     iconType: string,
@@ -37,9 +38,9 @@ const Row: React.FC<RowProps> = ({ iconType, iconName, iconSize = 30, textStyle 
                     color='#666'
                     size={iconSize} />
             </View>
-            <Text style={[ tw`text-gray-600 font-semibold text-lg mx-2` ]}>:</Text>
+            <Text style={[ tw`text-gray-600 font-semibold text-lg mx-2`, {fontFamily: polices.times_new_roman} ]}>:</Text>
             <View style={[ tw`flex-1` ]}>
-                <Text style={[ tw`text-black font-medium text-lg`, ...textStyle ]}>{ text }{_text}</Text>
+                <Text style={[ tw`text-black font-medium text-lg`, {fontFamily: polices.times_new_roman}, ...textStyle ]}>{ text }{_text}</Text>
             </View>
         </View>
     )
@@ -373,21 +374,21 @@ const DetailsNewCovoiturageView: React.FC<DetailsNewCovoiturageViewProps> = (pro
                                         style={[ tw`rounded-full border-2`, {width: 70, height: 70, borderColor: ColorsEncr.main}]}
                                     />
                                 </TouchableOpacity>                                        
-                                <Text style={tw`text-sm text-center text-black`} numberOfLines={2} ellipsizeMode='tail'>{reservations[selected].passager.nom.toUpperCase() + ' ' + reservations[selected].passager.prenom}</Text>
+                                <Text style={[tw`text-sm text-center text-black`, {fontFamily: polices.times_new_roman}]} numberOfLines={2} ellipsizeMode='tail'>{reservations[selected].passager.nom.toUpperCase() + ' ' + reservations[selected].passager.prenom}</Text>
                             </View>
 
                             <View style={tw`flex-row mb-1`}>
                                 <Icon type='material-community' name={'map-marker-outline'} size={18} color='green' style={tw`mr-1`} />
-                                <Text style={[ tw`flex-1 text-gray-400 text-xs`, {} ]}>{reservations[selected].adresse_depart}</Text>
+                                <Text style={[ tw`flex-1 text-gray-400 text-xs`, {fontFamily: polices.times_new_roman} ]}>{reservations[selected].adresse_depart}</Text>
                             </View>
                             <View style={tw`flex-row mb-2`}>
                                 <Icon type='material-community' name={'map-marker-outline'} size={18} color={ColorsEncr.main} style={tw`mr-1`} />
-                                <Text style={[ tw`flex-1 text-gray-400 text-xs`, {} ]}>{reservations[selected].adresse_arrive}</Text>
+                                <Text style={[ tw`flex-1 text-gray-400 text-xs`, {fontFamily: polices.times_new_roman} ]}>{reservations[selected].adresse_arrive}</Text>
                             </View>
 
                             <View style={[ tw`mb-2 flex-row items-center` ]}>
-                                <Text style={tw`text-black`}>Prix: </Text>
-                                <Text style={tw`flex-1 text-black text-xs`}>{getCurrency(reservations[selected].prix)} FCFA</Text>
+                                <Text style={[tw`text-black`, {fontFamily: polices.times_new_roman}]}>Prix: </Text>
+                                <Text style={[tw`flex-1 text-black text-xs`, {fontFamily: polices.times_new_roman}]}>{getCurrency(reservations[selected].prix)} FCFA</Text>
                                 <Pressable
                                     onPress={() => setVisible(state => ({...state, form: !visible.form}))}
                                     style={tw`p-2`}
@@ -397,13 +398,13 @@ const DetailsNewCovoiturageView: React.FC<DetailsNewCovoiturageViewProps> = (pro
                             </View>
 
                             <View style={[ tw`mb-2 flex-row items-center` ]}>
-                                <Text style={tw`text-black`}>Passager(s): </Text>
-                                <Text style={tw`flex-1 text-black text-xs`}>{reservations[selected].nb_place}</Text>
+                                <Text style={[tw`text-black`, {fontFamily: polices.times_new_roman}]}>Passager(s): </Text>
+                                <Text style={[tw`flex-1 text-black text-xs`, {fontFamily: polices.times_new_roman}]}>{reservations[selected].nb_place}</Text>
                             </View>
 
                             <View style={[ tw`mb-2 flex-row items-center` ]}>
-                                <Text style={tw`text-black`}>Date: </Text>
-                                <Text style={tw`flex-1 text-black text-xs`}>{reservations[selected].dat}</Text>
+                                <Text style={[tw`text-black`, {fontFamily: polices.times_new_roman}]}>Date: </Text>
+                                <Text style={[tw`flex-1 text-black text-xs`, {fontFamily: polices.times_new_roman}]}>{reservations[selected].dat}</Text>
                             </View>
 
                             {visible.form && (
@@ -421,7 +422,7 @@ const DetailsNewCovoiturageView: React.FC<DetailsNewCovoiturageViewProps> = (pro
                                         onChangeText={(text: string) => handleOnChange('mnt', text)}
                                         inputContainerStyle={[ tw`border rounded`, {height: 45} ]}
                                     />
-                                    <Button onPress={onHandlePrice} mode='outlined' loading={loading} labelStyle={[tw`text-green-500`, {color: ColorsEncr.main}]} style={[tw``, {borderColor: ColorsEncr.main}]}>
+                                    <Button onPress={onHandlePrice} mode='outlined' loading={loading} labelStyle={[tw`text-green-500`, {color: ColorsEncr.main, fontFamily: polices.times_new_roman}]} style={[tw``, {borderColor: ColorsEncr.main}]}>
                                         Valider
                                     </Button>
                                 </View>
@@ -457,7 +458,7 @@ const DetailsNewCovoiturageView: React.FC<DetailsNewCovoiturageViewProps> = (pro
                         />
                     </TouchableOpacity>
                     <View style={tw`flex-1 pt-1`}>
-                        <Text style={tw`text-black`}>{ conducteur.nom.toUpperCase() + ' ' + conducteur.prenom } (vous)</Text>
+                        <Text style={[tw`text-black`, {fontFamily: polices.times_new_roman}]}>{ conducteur.nom.toUpperCase() + ' ' + conducteur.prenom } (vous)</Text>
                     </View>
                     <Rating
                         readonly
@@ -472,23 +473,23 @@ const DetailsNewCovoiturageView: React.FC<DetailsNewCovoiturageViewProps> = (pro
                 <View style={tw`border-b border-gray-200 px-3 py-4`}>
                     <View style={[ tw`flex-row items-center mb-3` ]}>
                         <Icon type='font-awesome-5' name='map-marker-alt' color='green' containerStyle={tw`mr-2 self-start`} />
-                        <Text style={[ tw`flex-1 text-gray-400` ]}>{course.adresse_depart}</Text>
+                        <Text style={[ tw`flex-1 text-gray-400`, {fontFamily: polices.times_new_roman} ]}>{course.adresse_depart}</Text>
                     </View>
                     <View style={[ tw`flex-row items-center` ]}>
                         <Icon type='font-awesome-5' name='map-marker-alt' color={ColorsEncr.main} containerStyle={tw`mr-2 self-start`} />
-                        <Text style={[ tw`flex-1 text-gray-400` ]}>{course.adresse_arrive}</Text>
+                        <Text style={[ tw`flex-1 text-gray-400`, {fontFamily: polices.times_new_roman} ]}>{course.adresse_arrive}</Text>
                     </View>
 
                     <View style={[ tw`flex-row justify-between px-2 mt-5` ]}>
                         <View style={[ tw`flex-row items-center bg-orange-100 rounded-2xl py-1 px-3` ]}>
                             <Icon type='material-community' name='approximately-equal' size={20} iconStyle={{ color: ColorsEncr.main }} containerStyle={[ tw`mr-1` ]} />
                             <Icon type='font-awesome-5' name='car-alt' size={20} iconStyle={{ color: ColorsEncr.main }} containerStyle={[ tw`mr-1` ]} />
-                            <Text style={[ tw`text-xs`, {color: ColorsEncr.main} ]}>{course.nb_km} km</Text>
+                            <Text style={[ tw`text-xs`, {color: ColorsEncr.main, fontFamily: polices.times_new_roman} ]}>{course.nb_km} km</Text>
                         </View>
                         {/* <View style={[ tw`flex-row items-center bg-orange-100 rounded-2xl py-1 px-3` ]}>
                             <Icon type='material-community' name='approximately-equal' size={20} iconStyle={{ color: ColorsEncr.main }} containerStyle={[ tw`mr-1` ]} />
                             <Icon type='material-community' name='run' size={20} iconStyle={{ color: ColorsEncr.main }} />
-                            <Text style={[ tw`text-xs`, {color: ColorsEncr.main} ]}>{'1h 45m'}</Text>
+                            <Text style={[ tw`text-xs`, {color: ColorsEncr.main, fontFamily: polices.times_new_roman} ]}>{'1h 45m'}</Text>
                         </View> */}
                     </View>
                 </View>
@@ -496,40 +497,40 @@ const DetailsNewCovoiturageView: React.FC<DetailsNewCovoiturageViewProps> = (pro
                 <View style={tw`flex-row justify-between border-b border-gray-200 px-3 py-4`}>
                     <View style={tw`flex-1 justify-between items-center`}>
                         <Icon type='font-awesome-5' name='calendar-alt' color={ColorsEncr.main} />
-                        <Text style={tw`text-black font-bold`}>{ course.date_course}</Text>
+                        <Text style={[tw`text-black font-bold`, {fontFamily: polices.times_new_roman}]}>{ course.date_course}</Text>
                     </View>
 
                     <Divider orientation='vertical' />
 
                     <View style={tw`flex-1 justify-between items-center`}>
                         <Icon type='font-awesome-5' name='history' color={ColorsEncr.main} />
-                        <Text style={tw`text-black font-bold`}>{getLocalTimeStr(course.heure_course)}</Text>
+                        <Text style={[tw`text-black font-bold`, {fontFamily: polices.times_new_roman}]}>{getLocalTimeStr(course.heure_course)}</Text>
                     </View>
                 </View>
 
                 <View style={tw`flex-row justify-between border-b border-gray-200 px-3 py-4`}>
 
                     <View style={tw`flex-1 justify-between items-center`}>
-                        <Text style={tw`text-black font-bold`}>{course.nb_place_restante} Place(s) disponible(s)</Text>
+                        <Text style={[tw`text-black font-bold`, {fontFamily: polices.times_new_roman}]}>{course.nb_place_restante} Place(s) disponible(s)</Text>
                         <Icon type='ant-design' name='user' color={ColorsEncr.main} />
                     </View>
 
                     <Divider orientation='vertical' />
 
                     <View style={tw`flex-1 justify-between items-center`}>
-                        <Text style={tw`text-black font-bold`}>Prix</Text>
-                        <Text style={[ tw`text-lg`, {color: ColorsEncr.main} ]}>{getCurrency(course.mnt)} XOF</Text>
+                        <Text style={[tw`text-black font-bold`, {fontFamily: polices.times_new_roman}]}>Prix</Text>
+                        <Text style={[ tw`text-lg`, {color: ColorsEncr.main, fontFamily: polices.times_new_roman} ]}>{getCurrency(course.mnt)} XOF</Text>
                     </View>
 
                 </View>
 
                 <DataTable>
                     <DataTable.Header>
-                        <DataTable.Title>Passager</DataTable.Title>
-                        <DataTable.Title>Départ</DataTable.Title>
-                        <DataTable.Title>Arrivé</DataTable.Title>
-                        <DataTable.Title numeric>Prix</DataTable.Title>
-                        <DataTable.Title numeric>Date</DataTable.Title>
+                        <DataTable.Title textStyle={{ fontFamily: polices.times_new_roman }}>Passager</DataTable.Title>
+                        <DataTable.Title textStyle={{ fontFamily: polices.times_new_roman }}>Départ</DataTable.Title>
+                        <DataTable.Title textStyle={{ fontFamily: polices.times_new_roman }}>Arrivé</DataTable.Title>
+                        <DataTable.Title numeric textStyle={{ fontFamily: polices.times_new_roman }}>Prix</DataTable.Title>
+                        <DataTable.Title numeric textStyle={{ fontFamily: polices.times_new_roman }}>Date</DataTable.Title>
                     </DataTable.Header>
                     {endFetch
                     ?
@@ -541,16 +542,16 @@ const DetailsNewCovoiturageView: React.FC<DetailsNewCovoiturageViewProps> = (pro
                                         setSelected(index);
                                         setDialog(true);
                                     }}>
-                                        <DataTable.Cell>{item.passager.nom}</DataTable.Cell>
-                                        <DataTable.Cell>{item.adresse_depart}</DataTable.Cell>
-                                        <DataTable.Cell>{item.adresse_arrive}</DataTable.Cell>
-                                        <DataTable.Cell numeric>{item.prix}</DataTable.Cell>
-                                        <DataTable.Cell numeric>{item.dat}</DataTable.Cell>
+                                        <DataTable.Cell textStyle={{ fontFamily: polices.times_new_roman }}>{item.passager.nom}</DataTable.Cell>
+                                        <DataTable.Cell textStyle={{ fontFamily: polices.times_new_roman }}>{item.adresse_depart}</DataTable.Cell>
+                                        <DataTable.Cell textStyle={{ fontFamily: polices.times_new_roman }}>{item.adresse_arrive}</DataTable.Cell>
+                                        <DataTable.Cell numeric textStyle={{ fontFamily: polices.times_new_roman }}>{item.prix}</DataTable.Cell>
+                                        <DataTable.Cell numeric textStyle={{ fontFamily: polices.times_new_roman }}>{item.dat}</DataTable.Cell>
                                     </DataTable.Row>
                                 )
                             )
                         :
-                            <Text style={tw`text-center text-gray-400 p-2`}>Aucune réservation disponible</Text>
+                            <Text style={[tw`text-center text-gray-400 p-2`, {fontFamily: polices.times_new_roman}]}>Aucune réservation disponible</Text>
                     :
                         <View style={tw`p-2`}>
                             <ActivityIndicator color={'#c2c2c2'} />
@@ -563,7 +564,7 @@ const DetailsNewCovoiturageView: React.FC<DetailsNewCovoiturageViewProps> = (pro
                     ?
                         <>
                             <View style={[tw`mb-3`, {}]}>
-                                <Text style={tw`text-center font-black text-black`}>Course en attente...</Text>
+                                <Text style={[tw`text-center font-black text-black`, {fontFamily: polices.times_new_roman}]}>Course en attente...</Text>
                                 <View style={[tw`items-center`, {}]}>
                                     <Image resizeMode='contain' source={require('../../../assets/images/gifs/icons8-voiture.gif')} style={[tw``, {width: 200, height: 100}]} />
                                 </View>
@@ -573,18 +574,18 @@ const DetailsNewCovoiturageView: React.FC<DetailsNewCovoiturageViewProps> = (pro
                                     activeOpacity={0.5}
                                     onPress={() => onCourse('start')}
                                     style={[tw`flex-row justify-center items-center border rounded-lg p-3 mb-2`, {borderColor: ColorsEncr.main}]}>
-                                    <Text style={tw`text-gray-500 text-base text-center`}>Démarrer la course</Text>
+                                    <Text style={[tw`text-gray-500 text-base text-center`, {fontFamily: polices.times_new_roman}]}>Démarrer la course</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     activeOpacity={0.5}
                                     onPress={() => navigation.navigate('DashItineraire', {course: course, reservations: reservations, category: 'covoiturage'})}
                                     style={[tw`flex-row justify-center items-center border rounded-lg p-3 mb-2`, { borderColor: ColorsEncr.main }]}>
-                                    <Text style={tw`text-gray-500 text-base text-center`}>Voir la course</Text>
+                                    <Text style={[tw`text-gray-500 text-base text-center`, {fontFamily: polices.times_new_roman}]}>Voir la course</Text>
                                 </TouchableOpacity>
                             </View>
 
                             <View style={tw`px-7 mt-2`}>
-                                <Button onPress={onHandleCanceledCourse} mode='contained' color='rgb(185, 28, 28)' contentStyle={tw`p-3`}>
+                                <Button onPress={onHandleCanceledCourse} mode='contained' color='rgb(185, 28, 28)' contentStyle={tw`p-3`} labelStyle={{ fontFamily: polices.times_new_roman }}>
                                     Annuler
                                 </Button>
                             </View>
@@ -593,7 +594,7 @@ const DetailsNewCovoiturageView: React.FC<DetailsNewCovoiturageViewProps> = (pro
                         course.etat_course == 1
                         ?
                             <>
-                                <Text style={tw`text-center text-black`}>Course en cours...</Text>
+                                <Text style={[tw`text-center text-black`, {fontFamily: polices.times_new_roman}]}>Course en cours...</Text>
                                 <View style={[tw`items-center`, {}]}>
                                     <Image resizeMode='contain' source={require('../../../assets/images/gifs/icons8-fiat-500.gif')} style={[tw``, {width: 200, height: 100}]} />
                                 </View>
@@ -602,19 +603,19 @@ const DetailsNewCovoiturageView: React.FC<DetailsNewCovoiturageViewProps> = (pro
                                         activeOpacity={0.5}
                                         onPress={() => onCourse('end')}
                                         style={[tw`flex-row justify-center items-center border rounded-lg p-3 mb-2`, {borderColor: ColorsEncr.main}]}>
-                                        <Text style={tw`text-gray-500 text-base text-center`}>Course terminée</Text>
+                                        <Text style={[tw`text-gray-500 text-base text-center`, {fontFamily: polices.times_new_roman}]}>Course terminée</Text>
                                     </TouchableOpacity>
                                     <TouchableOpacity
                                         activeOpacity={0.5}
                                         onPress={() => navigation.navigate('DashItineraire', {course: course, reservations: reservations, category: 'covoiturage'})}
                                         style={[tw`flex-row justify-center items-center border rounded-lg p-3 mb-2`, { borderColor: ColorsEncr.main }]}>
-                                        <Text style={tw`text-gray-500 text-base text-center`}>Voir la course</Text>
+                                        <Text style={[tw`text-gray-500 text-base text-center`, {fontFamily: polices.times_new_roman}]}>Voir la course</Text>
                                     </TouchableOpacity>
                                 </View>
                             </>
                         : 
                         <>
-                            <Text style={tw`text-center font-black text-black`}>Course Terminée</Text>
+                            <Text style={[tw`text-center font-black text-black`, {fontFamily: polices.times_new_roman}]}>Course Terminée</Text>
                             <View style={[tw`items-center`, {}]}>
                                 <Image resizeMode='contain' source={require('../../../assets/images/icons8-taxi-stop-100.png')} style={[tw``, {width: 200, height: 100}]} />
                             </View>
@@ -623,7 +624,7 @@ const DetailsNewCovoiturageView: React.FC<DetailsNewCovoiturageViewProps> = (pro
                             //     <Pressable
                             //         onPress={() => onCourse('start')}
                             //         style={[tw`flex-row justify-center items-center border rounded-lg p-3`, {borderColor: ColorsEncr.main}]}>
-                            //         <Text style={tw`ml-2 text-gray-500 text-base text-center`}>Relancer la course</Text>
+                            //         <Text style={[tw`ml-2 text-gray-500 text-base text-center`, {fontFamily: polices.times_new_roman}]}>Relancer la course</Text>
                             //     </Pressable>
                             // </View>
                     }

@@ -16,6 +16,8 @@ import { setStoreCovoiturage } from '../../../feature/courses.slice';
 import { RNSpinner } from '../../../components/RNSpinner';
 import { useNavigation } from '@react-navigation/native';
 import { Snackbar } from 'react-native-paper';
+import { polices } from '../../../data/data';
+import { characters_exists } from '../../../functions/helperFunction';
 
 
 const Body: React.FC<{spinner?: boolean, refreshing: boolean, onRefresh: ()=>void, endFetch: boolean, covoiturages: Array<any>, covoiturageEmptyText: string, renderItem: any, refList: any}> = ({spinner, refreshing, onRefresh, endFetch, covoiturages, covoiturageEmptyText, renderItem, refList}) => {
@@ -36,7 +38,7 @@ const Body: React.FC<{spinner?: boolean, refreshing: boolean, onRefresh: ()=>voi
                 keyboardDismissMode='none'
                 ListEmptyComponent={ 
                     <View>
-                        <Text style={tw`text-gray-400`}>{ covoiturageEmptyText }</Text>
+                        <Text style={[tw`text-gray-400`, {fontFamily: polices.times_new_roman}]}>{ covoiturageEmptyText }</Text>
                     </View>
                 }
                 data={covoiturages}
@@ -134,9 +136,11 @@ const CovoituragesView: React.FC<CovoituragesViewProps> = ({ navigation }) => {
                                 ? ctext.toUpperCase()
                                 : ''.toUpperCase();
                 const textData = text.toUpperCase();
-                return itemData.indexOf(textData) > -1;
+                
+                return characters_exists(textData, itemData)
+                // return itemData.indexOf(textData) > -1;
             });
-            setCovoiturageEmptyText('Aucun résultat trouvé');
+            setCovoiturageEmptyText(`Aucun résultat trouvé pour "${text}"`);
             setCovoiturages(newData);
             setSearchItem(text);
         } else {

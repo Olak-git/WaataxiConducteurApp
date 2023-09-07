@@ -3,6 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'r
 import tw from'twrnc';
 import { ColorsEncr } from '../../../assets/styles';
 import { windowHeight } from '../../../functions/functions';
+import { polices } from '../../../data/data';
 
 interface PaginationProps {
     index: any,
@@ -26,7 +27,7 @@ const Pagination: React.FC<PaginationProps> = ({ index, data, handleOnChange = (
                     activeOpacity={0.5}
                     onPress={ handleOnChange }
                     style={[ tw`rounded p-3`, { position: 'absolute', right: 10, bottom: -15, backgroundColor: ColorsEncr.main }]}>
-                    <Text style={ tw`text-white` }>Commencer</Text>
+                    <Text style={[ tw`text-white`, {fontFamily: polices.times_new_roman} ]}>Commencer</Text>
                 </TouchableOpacity>
             ) }
         </View>

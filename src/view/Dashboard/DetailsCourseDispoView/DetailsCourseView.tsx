@@ -179,6 +179,7 @@ const DetailsCourseView: React.FC<DetailsCourseViewProps> = (props) => {
                 setCourse((state: any) => ({ ...state, ...json.course }));
                 dispatch(refreshHistoriqueCoures());
                 dispatch(setDisponibiliteCourse(false));
+                DeviceEventEmitter.emit('event.home.reload')
             } else {
                 const errors = json.errors;
                 console.log(errors);
@@ -345,9 +346,9 @@ const DetailsCourseView: React.FC<DetailsCourseViewProps> = (props) => {
                         <View style={tw`px-3`}>
                             <Icon onPress={() => setShow(false)} type='evilicon' name='close' color='#FFF' size={30} containerStyle={tw`self-end ${Platform.OS=='android'?'mt-3':'mt-10'} mr-3`} />
                             <View style={tw`mt-5`}>
-                                <Text style={tw`text-white text-center font-black text-lg`}>Note: </Text>
-                                <Text style={tw`text-white mt-1`}>Vous avez une course (instantanée/réservation) non achevée. Veuillez boucler la course avant de pouvoir en prendre une autre.</Text>
-                                <Text style={tw`text-white mt-1`}>Vous pouvez consulter <Text onPress={() => navigation.navigate('DashHistoriqueCourses')} style={tw`underline`}>l'historique</Text> de vos courses si vous ne la voyez pas.</Text>
+                                <Text style={[tw`text-white text-center font-black text-lg`, {fontFamily: polices.times_new_roman}]}>Note: </Text>
+                                <Text style={[tw`text-white mt-1`, {fontFamily: polices.times_new_roman}]}>Vous avez une course (instantanée/réservation) non achevée. Veuillez boucler la course avant de pouvoir en prendre une autre.</Text>
+                                <Text style={[tw`text-white mt-1`, {fontFamily: polices.times_new_roman}]}>Vous pouvez consulter <Text onPress={() => {setShow(false);navigation.navigate('DashHistoriqueCourses')}} style={tw`underline`}>l'historique</Text> de vos courses si vous ne la voyez pas.</Text>
                             </View>
                         </View>
                     </View>
@@ -363,8 +364,8 @@ const DetailsCourseView: React.FC<DetailsCourseViewProps> = (props) => {
                         />
                     </TouchableOpacity>
                     <View style={tw`flex-1 pt-1 justify-between`}>
-                        <Text style={[tw`text-black`, {fontFamily:'Itim-Regular'}]}>{passager.nom.toUpperCase() + ' ' + passager.prenom}</Text>
-                        <Text style={[tw`text-black`, {fontFamily:'Itim-Regular'}]} onPress={() => callPhoneNumber(passager.tel)}>{passager.tel}</Text>
+                        <Text style={[tw`text-black`, {fontFamily:'Itim-Regular'}, {fontFamily: polices.times_new_roman}]}>{passager.nom.toUpperCase() + ' ' + passager.prenom}</Text>
+                        <Text style={[tw`text-black`, {fontFamily:'Itim-Regular'}, {fontFamily: polices.times_new_roman}]} onPress={() => callPhoneNumber(passager.tel)}>{passager.tel}</Text>
                     </View>
                     <View style={tw`justify-between items-end`}>
                         <Rating
@@ -384,23 +385,23 @@ const DetailsCourseView: React.FC<DetailsCourseViewProps> = (props) => {
                 <View style={tw`border-b border-gray-200 px-3 py-4`}>
                     <View style={[tw`flex-row items-center mb-3`]}>
                         <Icon type='font-awesome-5' name='map-marker-alt' color='rgb(22, 101, 52)' containerStyle={tw`mr-2 self-start`} />
-                        <Text style={[tw`flex-1 text-gray-400`]}>{course.adresse_depart}</Text>
+                        <Text style={[tw`flex-1 text-gray-400`, {fontFamily: polices.times_new_roman}]}>{course.adresse_depart}</Text>
                     </View>
                     <View style={[tw`flex-row items-center`]}>
                         <Icon type='font-awesome-5' name='map-marker-alt' color={ColorsEncr.main} containerStyle={tw`mr-2 self-start`} />
-                        <Text style={[tw`flex-1 text-gray-400`]}>{course.adresse_arrive}</Text>
+                        <Text style={[tw`flex-1 text-gray-400`, {fontFamily: polices.times_new_roman}]}>{course.adresse_arrive}</Text>
                     </View>
 
                     <View style={[tw`flex-row justify-between px-2 mt-5`]}>
                         <View style={[tw`flex-row items-center bg-orange-100 rounded-2xl py-1 px-3`]}>
                             <Icon type='material-community' name='approximately-equal' size={20} iconStyle={{ color: ColorsEncr.main }} containerStyle={[tw`mr-1`]} />
                             <Icon type='font-awesome-5' name='car-alt' size={20} iconStyle={{ color: ColorsEncr.main }} containerStyle={[tw`mr-1`]} />
-                            <Text style={[tw`text-xs`, { color: ColorsEncr.main }]}>{km.toString().replace('.', ',')} km</Text>
+                            <Text style={[tw`text-xs`, { color: ColorsEncr.main, fontFamily: polices.times_new_roman }]}>{km.toString().replace('.', ',')} km</Text>
                         </View>
                         {/* <View style={[ tw`flex-row items-center bg-orange-100 rounded-2xl py-1 px-3` ]}>
                             <Icon type='material-community' name='approximately-equal' size={20} iconStyle={{ color: ColorsEncr.main }} containerStyle={[ tw`mr-1` ]} />
                             <Icon type='material-community' name='run' size={20} iconStyle={{ color: ColorsEncr.main }} />
-                            <Text style={[ tw`text-xs`, {color: ColorsEncr.main} ]}>{'1h 45m'}</Text>
+                            <Text style={[ tw`text-xs`, {color: ColorsEncr.main, fontFamily: polices.times_new_roman} ]}>{'1h 45m'}</Text>
                         </View> */}
                     </View>
                 </View>
@@ -408,7 +409,7 @@ const DetailsCourseView: React.FC<DetailsCourseViewProps> = (props) => {
                 <View style={tw`flex-row justify-between border-b border-gray-200 px-3 py-4`}>
 
                     <View style={tw`flex-1 justify-between items-center`}>
-                        <Text style={tw`text-black font-bold`}>{course.nb_place} Passager(s)</Text>
+                        <Text style={[tw`text-black font-bold`, {fontFamily: polices.times_new_roman}]}>{course.nb_place} Passager(s)</Text>
                         <Icon type='ant-design' name='user' color={ColorsEncr.main} />
                     </View>
 
@@ -419,9 +420,9 @@ const DetailsCourseView: React.FC<DetailsCourseViewProps> = (props) => {
                             {course.etat_course != 11 && (
                                 <Icon type='material-community' name='approximately-equal' size={20} containerStyle={[tw`mr-1`]} />
                             )}
-                            <Text style={tw`text-black font-bold`}>Prix</Text>
+                            <Text style={[tw`text-black font-bold`, {fontFamily: polices.times_new_roman}]}>Prix</Text>
                         </View>
-                        <Text style={[tw`text-lg`, { color: ColorsEncr.main }]}>{getCurrency(course.prix)} XOF</Text>
+                        <Text style={[tw`text-lg`, { color: ColorsEncr.main, fontFamily: polices.times_new_roman }]}>{getCurrency(course.prix)} XOF</Text>
                     </View>
 
                 </View>
@@ -431,9 +432,9 @@ const DetailsCourseView: React.FC<DetailsCourseViewProps> = (props) => {
                         ?
                         <>
                             <View style={tw`items-center px-2`}>
-                                <Text style={[tw`text-center text-black text-xl`, {fontFamily: 'Itim-Regular'}]}>En recherche de Taxi...</Text>
+                                <Text style={[tw`text-center text-black text-xl`, {fontFamily: 'Itim-Regular'}, {fontFamily: polices.times_new_roman}]}>En recherche de Taxi...</Text>
                                 <Spinner isVisible={true} size={30} color={'black'} type='ThreeBounce' />
-                                <Text style={[tw`text-center text-gray-500 mb-3`, {fontFamily: 'YatraOne-Regular'}]}>Veuillez accepter la course si vous êtes disponible et pas loin du point de départ!</Text>
+                                <Text style={[tw`text-center text-gray-500 mb-3`, {fontFamily: 'YatraOne-Regular'}, {fontFamily: polices.times_new_roman}]}>Veuillez accepter la course si vous êtes disponible et pas loin du point de départ!</Text>
                             </View>
                             <View style={tw`flex-1 justify-center items-center py-10`}>
                                 <Spinner isVisible={true} size={100} color={ColorsEncr.main} type='WanderingCubes' />
@@ -444,12 +445,12 @@ const DetailsCourseView: React.FC<DetailsCourseViewProps> = (props) => {
                                     <Pressable
                                         onPress={acceptCourse}
                                         style={[tw`flex-row justify-center items-center border rounded-lg p-3 mb-2`, { borderColor: ColorsEncr.main }]}>
-                                        <Text style={[tw`text-gray-500 text-base text-center`, {fontFamily: polices.font1}]}>Accepter la course</Text>
+                                        <Text style={[tw`text-gray-500 text-base text-center`, {fontFamily: polices.font1}, {fontFamily: polices.times_new_roman}]}>Accepter la course</Text>
                                     </Pressable>
                                 :
                                     <TouchableOpacity onPress={() => setShow(true)} style={tw`flex-row justify-center items-center border-t border-b border-gray-200 p-3 mb-3`}>
                                         <Icon type='ionicon' name='help' />
-                                        <Text style={[tw`text-black text-center`, {fontFamily: polices.font1}]}>Verrouillé</Text>
+                                        <Text style={[tw`text-black text-center`, {fontFamily: polices.font1}, {fontFamily: polices.times_new_roman}]}>Verrouillé</Text>
                                     </TouchableOpacity>
                                 }
                             </View>
@@ -459,18 +460,18 @@ const DetailsCourseView: React.FC<DetailsCourseViewProps> = (props) => {
                                     <Pressable
                                         onPress={acceptCourse}
                                         style={[tw`flex-row justify-center items-center border rounded-lg p-3 mb-2`, { borderColor: ColorsEncr.main }]}>
-                                        <Text style={[tw`text-gray-500 text-base text-center`, {fontFamily: polices.font1}]}>Accepter la course</Text>
+                                        <Text style={[tw`text-gray-500 text-base text-center`, {fontFamily: polices.font1}, {fontFamily: polices.times_new_roman}]}>Accepter la course</Text>
                                     </Pressable>
                                 :
                                     <TouchableOpacity onPress={() => setShow(true)} style={tw`flex-row justify-center items-center border-t border-b border-gray-200 p-3 mb-3`}>
                                         <Icon type='ionicon' name='help' />
-                                        <Text style={[tw`text-black text-center`, {fontFamily: polices.font1}]}>Verrouillé</Text>
+                                        <Text style={[tw`text-black text-center`, {fontFamily: polices.font1}, {fontFamily: polices.times_new_roman}]}>Verrouillé</Text>
                                     </TouchableOpacity>
                                 }
                                 <Pressable
                                     onPress={() => navigation.navigate('DashItineraire', { course: course, category: 'ci' })}
                                     style={[tw`flex-row justify-center items-center border rounded-lg p-3 mb-2`, { borderColor: ColorsEncr.main }]}>
-                                    <Text style={[tw`text-gray-500 text-base text-center`, {fontFamily: polices.font1}]}>Voir la course</Text>
+                                    <Text style={[tw`text-gray-500 text-base text-center`, {fontFamily: polices.font1}, {fontFamily: polices.times_new_roman}]}>Voir la course</Text>
                                 </Pressable>
                             </View> */}
                         </>
@@ -479,9 +480,9 @@ const DetailsCourseView: React.FC<DetailsCourseViewProps> = (props) => {
                             ?
                             <>
                                 <View style={tw`items-center px-2`}>
-                                    <Text style={[tw`text-center text-black text-xl`, {fontFamily: 'Itim-Regular'}]}>Rendez-vous sur le point de départ.</Text>
+                                    <Text style={[tw`text-center text-black text-xl`, {fontFamily: 'Itim-Regular'}, {fontFamily: polices.times_new_roman}]}>Rendez-vous sur le point de départ.</Text>
                                     <Spinner isVisible={true} size={30} color={'black'} type='ThreeBounce' />
-                                    <Text style={[tw`text-center text-gray-500 mb-3`, {fontFamily: 'YatraOne-Regular'}]}>Vous pouvez appeler le client sur son numéro de téléphone en cas de besoin.</Text>
+                                    <Text style={[tw`text-center text-gray-500 mb-3`, {fontFamily: 'YatraOne-Regular'}, {fontFamily: polices.times_new_roman}]}>Vous pouvez appeler le client sur son numéro de téléphone en cas de besoin.</Text>
                                 </View>
                                 <View style={[tw`items-center`, {}]}>
                                     <Image resizeMode='contain' source={require('../../../assets/images/gifs/icons8-voiture.gif')} style={[tw``, {width: 200, height: 100}]} />
@@ -490,7 +491,7 @@ const DetailsCourseView: React.FC<DetailsCourseViewProps> = (props) => {
                                     <TouchableOpacity
                                         onPress={() => onCourse('start', true)}
                                         style={[tw`flex-row justify-center items-center border rounded-lg p-3 mb-2`, { borderColor: ColorsEncr.main }]}>
-                                        <Text style={[tw`text-gray-500 text-base text-center`, {fontFamily: polices.font1}]}>Démarrer la course</Text>
+                                        <Text style={[tw`text-gray-500 text-base text-center`, {fontFamily: polices.font1}, {fontFamily: polices.times_new_roman}]}>Démarrer la course</Text>
                                     </TouchableOpacity>
                                     <TouchableOpacity
                                         activeOpacity={0.5}
@@ -500,11 +501,11 @@ const DetailsCourseView: React.FC<DetailsCourseViewProps> = (props) => {
                                         <Image
                                             source={require('../../../assets/images/itineraire.png')}
                                             style={{ width: 30, height: 30 }} />
-                                        <Text style={[tw`ml-2 text-gray-500 text-base text-center`, {fontFamily: polices.font1}]}>Maps</Text>
+                                        <Text style={[tw`ml-2 text-gray-500 text-base text-center`, {fontFamily: polices.font1}, {fontFamily: polices.times_new_roman}]}>Maps</Text>
                                     </TouchableOpacity>
                                 </View>
                                 {/* <View style={tw`px-7 mt-2`}>
-                                    <Button onPress={onHandleCanceledCourse} mode='contained' color='rgb(185, 28, 28)' contentStyle={tw`p-3`}>
+                                    <Button onPress={onHandleCanceledCourse} mode='contained' color='rgb(185, 28, 28)' contentStyle={tw`p-3`} labelStyle={{ fontFamily: polices.times_new_roman }}>
                                         Annuler
                                     </Button>
                                 </View> */}
@@ -513,7 +514,7 @@ const DetailsCourseView: React.FC<DetailsCourseViewProps> = (props) => {
                             course.etat_course == 10
                                 ?
                                 <>
-                                    <Text style={[tw`text-center text-black text-lg`,{fontFamily: 'Itim-Regular'}]}>Course en cours...</Text>
+                                    <Text style={[tw`text-center text-black text-lg`,{fontFamily: 'Itim-Regular'}, {fontFamily: polices.times_new_roman}]}>Course en cours...</Text>
                                     <View style={[tw`items-center`, {}]}>
                                         <Image resizeMode='contain' source={require('../../../assets/images/gifs/icons8-fiat-500.gif')} style={[tw``, {width: 200, height: 100}]} />
                                     </View>
@@ -521,7 +522,7 @@ const DetailsCourseView: React.FC<DetailsCourseViewProps> = (props) => {
                                         <TouchableOpacity
                                             onPress={() => onCourse('end')}
                                             style={[tw`flex-row justify-center items-center border rounded-lg p-3`, { borderColor: ColorsEncr.main }]}>
-                                            <Text style={[tw`text-gray-500 text-base text-center`, {fontFamily: polices.font1}]}>Course terminée</Text>
+                                            <Text style={[tw`text-gray-500 text-base text-center`, {fontFamily: polices.font1}, {fontFamily: polices.times_new_roman}]}>Course terminée</Text>
                                         </TouchableOpacity>
                                         <TouchableOpacity
                                             activeOpacity={0.5}
@@ -530,13 +531,13 @@ const DetailsCourseView: React.FC<DetailsCourseViewProps> = (props) => {
                                             <Image
                                                 source={require('../../../assets/images/itineraire.png')}
                                                 style={{ width: 30, height: 30 }} />
-                                            <Text style={[tw`ml-2 text-gray-500 text-base text-center`, {fontFamily: polices.font1}]}>Suivre la course</Text>
+                                            <Text style={[tw`ml-2 text-gray-500 text-base text-center`, {fontFamily: polices.font1}, {fontFamily: polices.times_new_roman}]}>Suivre la course</Text>
                                         </TouchableOpacity>
                                     </View>
                                 </>
                                 :
                                 <>
-                                    <Text style={tw`text-center font-black text-black`}>Course Terminée</Text>
+                                    <Text style={[tw`text-center font-black text-black`, {fontFamily: polices.times_new_roman}]}>Course Terminée</Text>
                                     <View style={[tw`items-center`, {}]}>
                                         {/* <Image resizeMode='contain' source={require('../../../assets/images/gifs/icons8-voiture.gif')} style={[tw``, {width: 200, height: 100}]} /> */}
                                         <Image resizeMode='contain' source={require('../../../assets/images/icons8-taxi-stop-100.png')} style={[tw``, {width: 200, height: 100}]} />

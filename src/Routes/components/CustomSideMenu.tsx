@@ -8,6 +8,7 @@ import { getCurrency, windowHeight } from '../../functions/functions'
 import DrawerMenu from './DrawerMenu'
 import { useSelector } from 'react-redux'
 import { Avatar } from 'react-native-paper'
+import { polices } from '../../data/data'
 
 interface CustomSideMenuProps {
     user: any,
@@ -40,8 +41,8 @@ const CustomSideMenu: React.FC<CustomSideMenuProps> = ({user, navigation}) => {
                                 style={[ tw`flex-row items-center py-2 px-3 border-b border-slate-50` ]}>
                                 <Icon type="font-awesome-5" name="wallet" size={25} color={ ColorsEncr.main }/>
                                 <View style={[ tw`px-4` ]}>
-                                    <Text style={[ tw`text-gray-800 text-xl`, {fontFamily: 'YanoneKaffeesatz-Medium'} ]}>Portefeuille</Text>
-                                    <Text style={[ tw`text-black font-bold text-xl` ]}>{ getCurrency(user.portefeuille) } F</Text>
+                                    <Text style={[ tw`text-gray-800 text-xl`, {fontFamily: 'YanoneKaffeesatz-Medium'}, {fontFamily: polices.times_new_roman} ]}>Portefeuille</Text>
+                                    <Text style={[ tw`text-black font-bold text-xl`, {fontFamily: polices.times_new_roman} ]}>{ getCurrency(user.portefeuille) } F</Text>
                                 </View>
                             </TouchableOpacity>
                         )}

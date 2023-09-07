@@ -23,6 +23,7 @@ import { Button, Dialog, ListItem, Avatar } from '@rneui/themed';
 import { Toast, ALERT_TYPE } from 'react-native-alert-notification';
 import moment from 'moment';
 import RNDatePicker from '../../../components/RNDatePicker';
+import { polices } from '../../../data/data';
 
 const {height: screenHeight, width: screenWidth} = Dimensions.get('screen');
 
@@ -295,7 +296,7 @@ const CovoituragePlusInfosView: React.FC<CovoituragePlusInfosViewProps> = ({ nav
                 onBackdropPress={() => toggleVisible('dialog', false)}
                 >
                 <Dialog.Title title="Success" titleStyle={tw`text-black`}/>
-                <Text style={tw`text-gray-600`}>Votre course de covoiturage a bien été enregistrée.</Text>
+                <Text style={[tw`text-gray-600`, {fontFamily: polices.times_new_roman}]}>Votre course de covoiturage a bien été enregistrée.</Text>
                 <Dialog.Actions>
                     {/* <Dialog.Button title="ACTION 1" onPress={() => console.log('Primary Action Clicked!')}/> */}
                     <Dialog.Button title="HOME" onPress={goHome}/>
@@ -311,15 +312,15 @@ const CovoituragePlusInfosView: React.FC<CovoituragePlusInfosViewProps> = ({ nav
                             <View style={[ tw`flex-row items-start mb-2` ]}>
                                 <Icon type='font-awesome' name='circle-thin' size={18} containerStyle={tw`pt-1 pl-1 pr-2`} />
                                 <View style={[ tw`ml-2` ]}>
-                                    <Text style={tw`text-gray-500`}>Point de départ</Text>
-                                    <Text style={[ tw`text-black`, {} ]}>{start_address}</Text>
+                                    <Text style={[tw`text-gray-500`, {fontFamily: polices.times_new_roman}]}>Point de départ</Text>
+                                    <Text style={[ tw`text-black`, {fontFamily: polices.times_new_roman} ]}>{start_address}</Text>
                                 </View>
                             </View>
                             <View style={[ tw`flex-row items-start mb-2` ]}>
                                 <Icon type='material-community' name='map-marker-outline' size={25} color={'red'} containerStyle={tw`pt-1`} />
                                 <View style={[ tw`ml-2` ]}>
-                                    <Text style={tw`text-gray-500`}>Point d'arrivé</Text>
-                                    <Text style={[ tw`text-black`, {} ]}>{end_address}</Text>
+                                    <Text style={[tw`text-gray-500`, {fontFamily: polices.times_new_roman}]}>Point d'arrivé</Text>
+                                    <Text style={[ tw`text-black`, {fontFamily: polices.times_new_roman} ]}>{end_address}</Text>
                                 </View>
                             </View>
                         </View>
@@ -328,12 +329,12 @@ const CovoituragePlusInfosView: React.FC<CovoituragePlusInfosViewProps> = ({ nav
                             <View style={[ tw`flex-row items-center bg-orange-100 rounded-2xl py-1 px-3` ]}>
                                 <Icon type='material-community' name='approximately-equal' size={20} iconStyle={{ color: ColorsEncr.main }} containerStyle={[ tw`mr-1` ]} />
                                 <Icon type='font-awesome-5' name='car-alt' size={20} iconStyle={{ color: ColorsEncr.main }} containerStyle={[ tw`mr-1` ]} />
-                                <Text style={[ tw`text-xs`, {color: ColorsEncr.main} ]}>{distance}</Text>
+                                <Text style={[ tw`text-xs`, {color: ColorsEncr.main, fontFamily: polices.times_new_roman} ]}>{distance}</Text>
                             </View>
                             <View style={[ tw`flex-row items-center bg-orange-100 rounded-2xl py-1 px-3` ]}>
                                 <Icon type='material-community' name='approximately-equal' size={20} iconStyle={{ color: ColorsEncr.main }} containerStyle={[ tw`mr-1` ]} />
                                 <Icon type='material-community' name='clock' size={20} iconStyle={{ color: ColorsEncr.main }} />
-                                <Text style={[ tw`text-xs ml-1`, {color: ColorsEncr.main} ]}>{duration}</Text>
+                                <Text style={[ tw`text-xs ml-1`, {color: ColorsEncr.main, fontFamily: polices.times_new_roman} ]}>{duration}</Text>
                             </View>
                         </View>
 
@@ -344,15 +345,15 @@ const CovoituragePlusInfosView: React.FC<CovoituragePlusInfosViewProps> = ({ nav
                         <View style={[tw`mt-6`]}>
                             <View style={tw`flex-row justify-between items-start`}>
                                 <View style={tw``}>
-                                    <Text onPress={() => setOpenDatePicker(!openDatePicker)} style={tw`border border-gray-400 rounded-lg p-3 text-black`}>Date de départ</Text>
+                                    <Text onPress={() => setOpenDatePicker(!openDatePicker)} style={[tw`border border-gray-400 rounded-lg p-3 text-black`, {fontFamily: polices.times_new_roman}]}>Date de départ</Text>
                                     {course.date_depart && (
-                                        <Text style={tw`mt-1 text-black font-bold text-center border-b border-gray-300`}>{ moment(course.date_depart).format('DD/MM/YYYY') }</Text>
+                                        <Text style={[tw`mt-1 text-black font-bold text-center border-b border-gray-300`, {fontFamily: polices.times_new_roman}]}>{ moment(course.date_depart).format('DD/MM/YYYY') }</Text>
                                     )}
                                 </View>
                                 <View style={tw``}>
-                                    <Text onPress={() => setOpenTimePicker(!openTimePicker)} style={tw`border border-gray-400 rounded-lg p-3 text-black`}>Heure de départ</Text>
+                                    <Text onPress={() => setOpenTimePicker(!openTimePicker)} style={[tw`border border-gray-400 rounded-lg p-3 text-black`, {fontFamily: polices.times_new_roman}]}>Heure de départ</Text>
                                     {course.heure_depart && (
-                                        <Text style={tw`mt-1 text-black font-bold text-center border-b border-gray-300`}>{ moment(course.heure_depart).format('HH:mm') }</Text>
+                                        <Text style={[tw`mt-1 text-black font-bold text-center border-b border-gray-300`, {fontFamily: polices.times_new_roman}]}>{ moment(course.heure_depart).format('HH:mm') }</Text>
                                     )}
                                 </View>
                             </View>
@@ -404,8 +405,8 @@ const CovoituragePlusInfosView: React.FC<CovoituragePlusInfosViewProps> = ({ nav
                                 inputStyle={tw`px-3`}
                                 constructHelper={
                                     <View style={[ tw`flex-row justify-between items-center mt-1` ]}>
-                                        <Text style={[ tw`text-gray-600 text-xs font-extrabold` ]}>Minimum:</Text>
-                                        <Text style={[ tw`text-gray-600 text-xs font-extrabold` ]}>1</Text>
+                                        <Text style={[ tw`text-gray-600 text-xs font-extrabold`, {fontFamily: polices.times_new_roman} ]}>Minimum:</Text>
+                                        <Text style={[ tw`text-gray-600 text-xs font-extrabold`, {fontFamily: polices.times_new_roman} ]}>1</Text>
                                     </View>
                                 }
                             />
@@ -441,10 +442,10 @@ const CovoituragePlusInfosView: React.FC<CovoituragePlusInfosViewProps> = ({ nav
                                 {visible.modal && (
                                     <ActivityIndicator style={tw`mr-3`} />
                                 )}
-                                <Text style={[ tw`uppercase text-center font-medium ${visible.modal?'text-gray-400':'text-black'}` ]}>Valider ma course</Text>
+                                <Text style={[ tw`uppercase text-center font-medium ${visible.modal?'text-gray-400':'text-black'}`, {fontFamily: polices.times_new_roman} ]}>Valider ma course</Text>
                             </TouchableOpacity>
                         </View>
-                        <Text style={tw`text-center text-slate-500`}>Après validation, il vous sera prélevé les frais de réservation de votre portefeuille.</Text>
+                        <Text style={[tw`text-center text-slate-500`, {fontFamily: polices.times_new_roman}]}>Après validation, il vous sera prélevé les frais de réservation de votre portefeuille.</Text>
 
                     </View>
 

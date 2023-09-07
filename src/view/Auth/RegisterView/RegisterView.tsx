@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ModalValidationForm } from '../../../components/ModalValidationForm';
 import { clone, storagePermission } from '../../../functions/helperFunction';
 import { setUser } from '../../../feature/user.slice';
-import { otp_authentication } from '../../../data/data';
+import { otp_authentication, polices } from '../../../data/data';
 import { setDisponibiliteCourse, setDisponibiliteReservation, setStopped, setWithPortefeuille } from '../../../feature/init.slice';
 
 interface RegisterViewProps {
@@ -382,7 +382,7 @@ const RegisterView:React.FC<RegisterViewProps> = ({ navigation, route }) => {
             <View style={[ tw`items-center mt-1 mb-4` ]}>
                 <Text style={[tw`text-black uppercase`, {fontSize: 45, fontFamily: Platform.OS == 'android' ? 'ShadowsIntoLight-Regular' : 'PatrickHand-Regular'}]}>waa<Text style={{color: ColorsEncr.main}}>taxi</Text></Text>
             </View>
-            <Text style={[ tw`text-center text-lg text-black mb-5` ]}>Veuillez renseigner votre compte</Text>
+            <Text style={[ tw`text-center text-lg text-black mb-5`, {fontFamily: polices.times_new_roman} ]}>Veuillez renseigner votre compte</Text>
             
             <View style={[ tw`px-5` ]}>
                 <View style={[ tw`flex-row ${mode == 0 ? 'border-t' : 'border-b'}`, {backgroundColor: ColorsEncr.main_sm, borderColor: ColorsEncr.main_sm} ]}>
@@ -394,7 +394,7 @@ const RegisterView:React.FC<RegisterViewProps> = ({ navigation, route }) => {
                             scrollRef?.current?.scrollTo({x: 0, y: 0, animated: true})
                         }}
                         style={[ tw`flex-1 p-2 ${mode == 1 ? 'rounded-br-full' : ''}`, {backgroundColor: mode == 0 ? ColorsEncr.main_sm : 'rgb(248, 250, 252)'} ]}>
-                        <Text style={[ tw`font-semibold text-base text-center`, {color: mode == 0 ? '#FFFFFF' : '#000000'} ]}>Conducteur</Text>
+                        <Text style={[ tw`font-semibold text-base text-center`, {color: mode == 0 ? '#FFFFFF' : '#000000', fontFamily: polices.times_new_roman} ]}>Conducteur</Text>
                     </Pressable>
                     <Pressable
                         onPress={() => {
@@ -405,7 +405,7 @@ const RegisterView:React.FC<RegisterViewProps> = ({ navigation, route }) => {
                             // scrollRef?.current?.scrollToEnd({animated: true})
                         }}
                         style={[ tw`flex-1 p-2 ${mode == 0 ? 'rounded-tl-full' : ''}`, {backgroundColor: mode == 1 ? ColorsEncr.main_sm : 'rgb(248, 250, 252)'} ]}>
-                        <Text style={[ tw`font-semibold text-base text-center`, {color: mode == 1 ? '#FFFFFF' : '#000000'} ]}>Covoitureur</Text>
+                        <Text style={[ tw`font-semibold text-base text-center`, {color: mode == 1 ? '#FFFFFF' : '#000000', fontFamily: polices.times_new_roman} ]}>Covoitureur</Text>
                     </Pressable>
                 </View>
             </View>
@@ -430,7 +430,7 @@ const RegisterView:React.FC<RegisterViewProps> = ({ navigation, route }) => {
 
             <View style={tw`flex-row px-5 mb-2`}>
                 <TouchableOpacity onPress={goBack} style={tw``}>
-                    <Text style={tw`text-gray-600`}>Autre numéro de téléphone ?</Text>
+                    <Text style={[tw`text-gray-600`, {fontFamily: polices.times_new_roman}]}>Autre numéro de téléphone ?</Text>
                 </TouchableOpacity>
             </View>
             <View style={[ tw`justify-center px-5`, {height: 70} ]}>
@@ -438,7 +438,7 @@ const RegisterView:React.FC<RegisterViewProps> = ({ navigation, route }) => {
                     onPress={onHandle}
                     style={[ tw`justify-center items-center rounded py-4 px-5`, {backgroundColor: ColorsEncr.main, height: 60} ]}
                 >
-                    <Text style={[ tw`uppercase text-center font-medium text-black` ]}>finaliser mon compte</Text>
+                    <Text style={[ tw`uppercase text-center font-medium text-black`, {fontFamily: polices.times_new_roman} ]}>finaliser mon compte</Text>
                 </TouchableOpacity>
             </View>
         </Base>

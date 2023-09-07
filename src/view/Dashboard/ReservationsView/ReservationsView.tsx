@@ -15,6 +15,8 @@ import RenderItemCourseInstantane from '../../../components/RenderItemCourseInst
 import { setStopped } from '../../../feature/init.slice';
 import { setStoreReservation } from '../../../feature/courses.slice';
 import { RNSpinner } from '../../../components/RNSpinner';
+import { polices } from '../../../data/data';
+import { characters_exists } from '../../../functions/helperFunction';
 
 const timer = require('react-native-timer')
 
@@ -24,7 +26,7 @@ const Body: React.FC<{spinner?: boolean, refreshing: boolean, onRefresh: ()=>voi
     return (
         <>
             {!disponibilite && (
-                <Text style={tw`text-center mb-4 text-red-600 font-bold underline px-3`}>Vous êtes hors service</Text>
+                <Text style={[tw`text-center mb-4 text-red-600 font-bold underline px-3`, {fontFamily: polices.times_new_roman}]}>Vous êtes hors service</Text>
             )}
             <FlatList
                 refreshControl={
@@ -39,7 +41,7 @@ const Body: React.FC<{spinner?: boolean, refreshing: boolean, onRefresh: ()=>voi
                 keyboardDismissMode='none'
                 ListEmptyComponent={ 
                     <View>
-                        <Text style={tw`text-gray-400`}>{ reservationEmptyText }</Text>
+                        <Text style={[tw`text-gray-400`, {fontFamily: polices.times_new_roman}]}>{ reservationEmptyText }</Text>
                     </View>
                 }
                 data={reservations}
@@ -132,9 +134,11 @@ const ReservationsView: React.FC<ReservationsViewProps> = ({ navigation }) => {
                                 ? ctext.toUpperCase()
                                 : ''.toUpperCase();
                 const textData = text.toUpperCase();
-                return itemData.indexOf(textData) > -1;
+
+                return characters_exists(textData, itemData)
+                // return itemData.indexOf(textData) > -1;
             });
-            setReservationEmptyText('Aucun résultat trouvé');
+            setReservationEmptyText(`Aucun résultat trouvé pour "${text}"`);
             setReservations(newData);
             setSearchItem(text);
         } else {

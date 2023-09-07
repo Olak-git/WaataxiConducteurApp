@@ -18,7 +18,7 @@ import { deleteCourse, deleteReservation, resetCoords } from '../../../feature/c
 import { resetNotifications, setCount } from '../../../feature/notifications.slice';
 import { setDisponibilite, setDisponibiliteCourse, setDisponibiliteReservation, setStopped, setWithPortefeuille } from '../../../feature/init.slice';
 import { Divider } from '@rneui/themed';
-import { google_maps_apikey, waataxi_infos } from '../../../data/data';
+import { google_maps_apikey, polices, waataxi_infos } from '../../../data/data';
 import Geocoder from 'react-native-geocoding';
 import { ModalValidationForm } from '../../../components/ModalValidationForm';
 import { clearStoreCourses } from '../../../feature/courses.slice';
@@ -229,6 +229,12 @@ const HomeView: React.FC<HomeViewProps> = ({navigation, route}) => {
         clearTimer();
     });
 
+    const event3 = DeviceEventEmitter.addListener("event.home.reload", (eventData) => {
+        console.log('Benitooo');
+        getCoordonates();
+        getData();
+    });
+
     const checkVersion = useCallback((a)=>{
         DeviceEventEmitter.emit('check.version', a)
     }, [])
@@ -254,6 +260,7 @@ const HomeView: React.FC<HomeViewProps> = ({navigation, route}) => {
         return () => {
             event1.remove()
             event2.remove()
+            event3.remove()
         }
     }, [])
 
@@ -270,34 +277,34 @@ const HomeView: React.FC<HomeViewProps> = ({navigation, route}) => {
                         {user.compte_business == 1
                             ?
                                 <>
-                                    <Text style={[tw`text-black font-bold mb-2`, { lineHeight: 18 }]}>Veuillez vous rendre à l'agence pour finaliser votre inscription.</Text>
-                                    <Text style={tw`text-black mb-2`}>Soyez muni des pièces:</Text>
-                                    <Text style={tw`text-black`}>- Carte nationale d'identité (ou passeport);</Text>
-                                    <Text style={tw`text-black`}>- Carte grise;</Text>
-                                    <Text style={tw`text-black mb-2`}>- Permis de conduire.</Text>
-                                    <Text style={tw`text-black font-bold`}>NB: Venez avec votre véhicule.</Text>                                
+                                    <Text style={[tw`text-black font-bold mb-2`, { lineHeight: 18, fontFamily: polices.times_new_roman }]}>Veuillez vous rendre à l'agence pour finaliser votre inscription.</Text>
+                                    <Text style={[tw`text-black mb-2`, {fontFamily: polices.times_new_roman}]}>Soyez muni des pièces:</Text>
+                                    <Text style={[tw`text-black`, {fontFamily: polices.times_new_roman}]}>- Carte nationale d'identité (ou passeport);</Text>
+                                    <Text style={[tw`text-black`, {fontFamily: polices.times_new_roman}]}>- Carte grise;</Text>
+                                    <Text style={[tw`text-black mb-2`, {fontFamily: polices.times_new_roman}]}>- Permis de conduire.</Text>
+                                    <Text style={[tw`text-black font-bold`, {fontFamily: polices.times_new_roman}]}>NB: Venez avec votre véhicule.</Text>                                
                                 </>
                             :
                                 <>
-                                    <Text style={[tw`text-black font-bold mb-2`, { lineHeight: 18 }]}>Veuillez patienter un instant. Nous vérifions vos informations.</Text>
-                                    <Text style={tw`text-black`}>Votre compte sera activé d'ici peu.</Text>
+                                    <Text style={[tw`text-black font-bold mb-2`, { lineHeight: 18, fontFamily: polices.times_new_roman }]}>Veuillez patienter un instant. Nous vérifions vos informations.</Text>
+                                    <Text style={[tw`text-black`, {fontFamily: polices.times_new_roman}]}>Votre compte sera activé d'ici peu.</Text>
                                 </>
                         }
                         <Divider color='#ddd' style={tw`my-3`} />
                         <View style={tw`flex-row items-center mb-1`}>
                             <Icon type='material-icon' name='location-pin' color={ColorsEncr.main} />
-                            <Text style={tw`flex-1 text-black ml-2`} onPress={() => openUrl(`geo:${geo}`)}>{waataxi_infos.address}</Text>
+                            <Text style={[tw`flex-1 text-black ml-2`, {fontFamily: polices.times_new_roman}]} onPress={() => openUrl(`geo:${geo}`)}>{waataxi_infos.address}</Text>
                         </View>
                         <View style={tw`flex-row items-center mb-1`}>
                             <Icon type='material-community' name='email-newsletter' color={ColorsEncr.main} />
-                            <Text style={tw`flex-1 text-black ml-2`} onPress={() => openUrl(`mailto:${waataxi_infos.email}`)}>{waataxi_infos.email}</Text>
+                            <Text style={[tw`flex-1 text-black ml-2`, {fontFamily: polices.times_new_roman}]} onPress={() => openUrl(`mailto:${waataxi_infos.email}`)}>{waataxi_infos.email}</Text>
                         </View>
                         <View style={tw`flex-row items-center`}>
                             <Icon type='material-icon' name='phone' color={ColorsEncr.main} />
-                            <Text style={tw`flex-1 text-black ml-2`} onPress={() => openUrl(`tel:${waataxi_infos.phone}`)}>{waataxi_infos.phone}</Text>
+                            <Text style={[tw`flex-1 text-black ml-2`, {fontFamily: polices.times_new_roman}]} onPress={() => openUrl(`tel:${waataxi_infos.phone}`)}>{waataxi_infos.phone}</Text>
                         </View>
                         <Divider color='#ddd' style={tw`my-3`} />
-                        <TouchableOpacity onPress={onSignOut}><Text style={tw`text-center font-semibold text-red-600`}>Me déconnecter</Text></TouchableOpacity>
+                        <TouchableOpacity onPress={onSignOut}><Text style={[tw`text-center font-semibold text-red-600`, {fontFamily: polices.times_new_roman}]}>Me déconnecter</Text></TouchableOpacity>
                     </View>
                 </RNPModal>                
             )}
@@ -325,7 +332,7 @@ const HomeView: React.FC<HomeViewProps> = ({navigation, route}) => {
                 </View>
                 <View style={[tw`flex-row justify-center items-center`]}>
                     <View style={tw`flex-row mr-2`}>
-                        <Text style={[tw`uppercase text-center text-black text-lg mr-2`, { maxWidth: windowWidth - 100 }]}>{disponibilite ? 'Arreter le travail' : 'Commencer le travail'}</Text>
+                        <Text style={[tw`uppercase text-center text-black text-lg mr-2`, { maxWidth: windowWidth - 100, fontFamily: polices.times_new_roman }]}>{disponibilite ? 'Arreter le travail' : 'Commencer le travail'}</Text>
                         {disabled && (
                             <ActivityIndicator size='small' color={ColorsEncr.main} />
                         )}
@@ -337,7 +344,7 @@ const HomeView: React.FC<HomeViewProps> = ({navigation, route}) => {
             {user.compte_business == 1 && (
                 <View style={[tw`flex-row justify-center items-center my-2`]}>
                     <View style={tw`flex-row mr-2`}>
-                        <Text style={[tw`uppercase text-center text-black text-lg mr-2`, { maxWidth: windowWidth - 100 }]}>{disponibilite ? 'Arreter le travail' : 'Commencer le travail'}</Text>
+                        <Text style={[tw`uppercase text-center text-black text-lg mr-2`, { maxWidth: windowWidth - 100, fontFamily: polices.times_new_roman }]}>{disponibilite ? 'Arreter le travail' : 'Commencer le travail'}</Text>
                         {disabled && (
                             <ActivityIndicator size='small' color={ColorsEncr.main} />
                         )}
@@ -358,19 +365,19 @@ const HomeView: React.FC<HomeViewProps> = ({navigation, route}) => {
                 contentContainerStyle={[tw``, { minHeight: height - 116 - 98.5 }]}>
                 <View style={[tw`${user.compte_business == 1 ? 'flex-1 justify-around' : ''} py-3`]}>
                     {user.compte_business == 1 && user.actif == 0 && (
-                        <Text style={tw`text-center text-black px-3`}>Votre compte est momentanément désactivé. Veuillez vous rendre dans notre agence pour compléter votre inscription. Merci.</Text>
+                        <Text style={[tw`text-center text-black px-3`, {fontFamily: polices.times_new_roman}]}>Votre compte est momentanément désactivé. Veuillez vous rendre dans notre agence pour compléter votre inscription. Merci.</Text>
                     )}
 
                     {user.compte_business == 1
                         ? fullNewCourses > 0
                             ? (
                                 <View style={tw`mx-5 my-2 p-3 bg-black rounded-md`}>
-                                    <Text style={[tw`text-base text-orange-400`]}>De nouvelles courses sont disponibles. <Text style={tw`font-bold`}>{fullNewCourses.toString().padStart(2, '0')} courses en attente.</Text></Text>
+                                    <Text style={[tw`text-base text-orange-400`, {fontFamily: polices.times_new_roman}]}>De nouvelles courses sont disponibles. <Text style={tw`font-bold`}>{fullNewCourses.toString().padStart(2, '0')} courses en attente.</Text></Text>
                                 </View>
                             )
                             : (newCourses > 0 || newReservations > 0) && (
                                 <View style={tw`mx-5 my-2 p-3 bg-black rounded-md`}>
-                                    <Text style={tw`text-base text-orange-400`}>
+                                    <Text style={[tw`text-base text-orange-400`, {fontFamily: polices.times_new_roman}]}>
                                         <Text>De nouvelles courses disponibles: </Text> 
                                         {newCourses > 0 && (
                                             <><Text style={tw`font-bold`}>{newCourses.toString().padStart(2,'0')}</Text> course(s) instantanée(s)</>
@@ -391,12 +398,12 @@ const HomeView: React.FC<HomeViewProps> = ({navigation, route}) => {
                         ?
                         <View style={[tw`flex-1 justify-center`]}>
                             <View style={[tw`flex-row justify-center items-start px-10 mb-4`, { height: 200 }]}>
-                                <ButtonMenu disabled={user.actif == 0} navigation={navigation} route='DashCoursesDispos' iconName='car-alt' caption='Courses Disponibles' />
+                                <ButtonMenu disabled={user.actif == 0} navigation={navigation} route='DashCoursesDispos' iconName='car-alt' caption='Courses Disponibles' badge={newCourses>0} count_new_courses={newCourses} />
                                 <Text style={[tw`mx-2`]}></Text>
                                 <ButtonMenu disabled={user.actif == 0} navigation={navigation} route='DashCovoiturages' iconName='user-friends' caption="Covoiturage" />
                             </View>
                             <View style={[tw`flex-row justify-center items-start px-10`, { height: 200 }]}>
-                                <ButtonMenu disabled={user.actif == 0} navigation={navigation} route='DashReservations' iconName='calendar-alt' caption='Réservation' />
+                                <ButtonMenu disabled={user.actif == 0} navigation={navigation} route='DashReservations' iconName='calendar-alt' caption='Réservation' badge={newReservations>0} count_new_courses={newReservations} />
                                 <Text style={[tw`mx-2`]}></Text>
                                 <ButtonMenu navigation={navigation} route='DashBilan' disabled={user.actif == 0} iconName='chart-bar' caption='Bilan' />
                             </View>
@@ -423,8 +430,8 @@ const HomeView: React.FC<HomeViewProps> = ({navigation, route}) => {
                             name="wallet"
                             size={30} />
                         <View style={[tw`ml-3`]}>
-                            <Text style={[tw`text-gray-800`]}>Portefeuille</Text>
-                            <Text style={[tw`text-black font-bold text-2xl`]}>{getCurrency(user.portefeuille)} F</Text>
+                            <Text style={[tw`text-gray-800`, {fontFamily: polices.times_new_roman}]}>Portefeuille</Text>
+                            <Text style={[tw`text-black font-bold text-2xl`, {fontFamily: polices.times_new_roman}]}>{getCurrency(user.portefeuille)} F</Text>
                         </View>
                     </Pressable>
                     <Pressable
@@ -435,7 +442,7 @@ const HomeView: React.FC<HomeViewProps> = ({navigation, route}) => {
                             name="history"
                             size={30}
                         />
-                        <Text style={[tw`text-black`]}>Historique</Text>
+                        <Text style={[tw`text-black`, {fontFamily: polices.times_new_roman}]}>Historique</Text>
                     </Pressable>
                 </View>
             </View>

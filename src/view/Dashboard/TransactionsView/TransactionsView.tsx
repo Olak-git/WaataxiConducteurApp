@@ -18,6 +18,7 @@ import { ModalValidationForm } from '../../../components/ModalValidationForm';
 import FlashMessage from '../../../components/FlashMessage';
 import { setReload } from '../../../feature/reload.slice';
 import SearchBar from '../../../components/SearchBar';
+import { polices } from '../../../data/data';
 
 interface RowProps {
     iconType: string,
@@ -37,9 +38,9 @@ const Row: React.FC<RowProps> = ({ iconType, iconName, iconSize = 30, textStyle 
                     color='#666'
                     size={iconSize} />
             </View>
-            <Text style={[ tw`text-gray-600 font-semibold text-lg mx-2` ]}>:</Text>
+            <Text style={[ tw`text-gray-600 font-semibold text-lg mx-2`, {fontFamily: polices.times_new_roman} ]}>:</Text>
             <View style={[ tw`flex-1` ]}>
-                <Text style={[ tw`text-black font-medium text-lg`, ...textStyle ]}>{ text }{_text}</Text>
+                <Text style={[ tw`text-black font-medium text-lg`, {fontFamily: polices.times_new_roman}, ...textStyle ]}>{ text }{_text}</Text>
             </View>
         </View>
     )
@@ -116,7 +117,7 @@ const TransactionsView: React.FC<TransactionsViewProps> = ({navigation}) => {
                 const textData = text.toUpperCase();
                 return itemData.indexOf(textData) > -1;
             });
-            setEmptyText('Aucun résultat trouvé');
+            setEmptyText(`Aucun résultat trouvé pour "${text}"`);
             setTransactions(newData);
             setSearchItem(text);
         } else {
@@ -224,12 +225,12 @@ const TransactionsView: React.FC<TransactionsViewProps> = ({navigation}) => {
                     />
                 }
             >
-                <Text style={tw`px-4 font-bold`}>Retrait</Text>
+                <Text style={[tw`px-4 font-bold`, {fontFamily: polices.times_new_roman}]}>Retrait</Text>
                 <DataTable>
                     <DataTable.Header>
-                        <DataTable.Title>Date</DataTable.Title>
-                        <DataTable.Title>Montant</DataTable.Title>
-                        <DataTable.Title>Statut</DataTable.Title>
+                        <DataTable.Title textStyle={{ fontFamily: polices.times_new_roman }}>Date</DataTable.Title>
+                        <DataTable.Title textStyle={{ fontFamily: polices.times_new_roman }}>Montant</DataTable.Title>
+                        <DataTable.Title textStyle={{ fontFamily: polices.times_new_roman }}>Statut</DataTable.Title>
                     </DataTable.Header>
                     {endFetch
                     ?
@@ -243,14 +244,14 @@ const TransactionsView: React.FC<TransactionsViewProps> = ({navigation}) => {
                                         //     setDialog(true);
                                         // }}
                                     >
-                                        <DataTable.Cell>{item.dat}</DataTable.Cell>
-                                        <DataTable.Cell>{item.montant}</DataTable.Cell>
-                                        <DataTable.Cell>{item.valide == 0 ? 'Transaction en cours' : 'Terminée'}</DataTable.Cell>
+                                        <DataTable.Cell textStyle={{ fontFamily: polices.times_new_roman }}>{item.dat}</DataTable.Cell>
+                                        <DataTable.Cell textStyle={{ fontFamily: polices.times_new_roman }}>{item.montant}</DataTable.Cell>
+                                        <DataTable.Cell textStyle={{ fontFamily: polices.times_new_roman }}>{item.valide == 0 ? 'Transaction en cours' : 'Terminée'}</DataTable.Cell>
                                     </DataTable.Row>
                                 )
                             )
                         :
-                            <Text style={tw`text-center text-gray-400 p-2`}>{emptyText}</Text>
+                            <Text style={[tw`text-center text-gray-400 p-2`, {fontFamily: polices.times_new_roman}]}>{emptyText}</Text>
                     :
                         <View style={tw`p-2`}>
                             <ActivityIndicator color={'#c2c2c2'} />

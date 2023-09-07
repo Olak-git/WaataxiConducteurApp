@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, Platform, Pressable, S
 import Base from '../../../components/Base';
 import MapView, { AnimatedRegion, Marker } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
-import { google_maps_apikey, imageMapPath, LATITUDE_DELTA, LONGITUDE_DELTA } from '../../../data/data';
+import { google_maps_apikey, imageMapPath, LATITUDE_DELTA, LONGITUDE_DELTA, polices } from '../../../data/data';
 import tw from 'twrnc';
 import { locationPermission, getCurrentLocation, getErrorsToString, openUrl, openCoordonateOnMap, callPhoneNumber } from '../../../functions/helperFunction';
 import { ActivityLoading } from '../../../components/ActivityLoading';
@@ -49,7 +49,7 @@ const BottomButton: React.FC<{buttonTitle: string, pressAction?: any, mapsCoords
                 <TouchableOpacity
                     onPress={pressAction}
                     style={[ tw`p-2 rounded-md border border-slate-300`, {}]}>
-                    <Text style={[ tw`text-center font-semibold text-black text-lg` ]}>{buttonTitle}</Text>
+                    <Text style={[ tw`text-center font-semibold text-black text-lg`, {fontFamily: polices.times_new_roman} ]}>{buttonTitle}</Text>
                 </TouchableOpacity>
                 {mapsCoords && (
                     <Icon type='material-community' name='arrow-right-top-bold' containerStyle={tw`mt-4`} onPress={onHandleMaps} />
@@ -124,16 +124,16 @@ const RenderItemCourse = (props: any) => {
                 <View style={tw`flex-row mb-1`}>
                     <Image source={require("../../../assets/images/icons8-epingle-de-carte-windows-11-color/icons8-epingle-de-carte-96.png")} style={[tw`mr-1`,{width:20, height:20}]} />
                     {/* <Icon type='material-community' name={'map-marker-outline'} size={18} color='green' style={tw`mr-1`} /> */}
-                    <Text style={[ tw`flex-1 text-gray-400 text-xs`, {} ]}>{item.adresse_depart}lokjijoihu hiuhiuhuhugiyufyftfyguyppppppppppppppppp</Text>
+                    <Text style={[ tw`flex-1 text-gray-400 text-xs`, {fontFamily: polices.times_new_roman} ]}>{item.adresse_depart}lokjijoihu hiuhiuhuhugiyufyftfyguyppppppppppppppppp</Text>
                 </View>
                 <View style={tw`flex-row mb-2`}>
                     <Image source={require("../../../assets/images/epingle-carte.png")} style={[tw`mr-1`,{width:20, height:20}]} />
                     {/* <Icon type='material-community' name={'map-marker-outline'} size={18} color={ColorsEncr.main} style={tw`mr-1`} /> */}
-                    <Text style={[ tw`flex-1 text-gray-400 text-xs`, {} ]}>{item.adresse_arrive}</Text>
+                    <Text style={[ tw`flex-1 text-gray-400 text-xs`, {fontFamily: polices.times_new_roman} ]}>{item.adresse_arrive}</Text>
                 </View>
                 <View style={tw`flex-row items-center`}>
                     <Icon type="feather" name="phone" size={18} color="#bbb" containerStyle={tw`mr-1`} />
-                    <Text style={tw`text-black text-sm`} onPress={() => callPhoneNumber(item.passager.tel)}>({item.passager.tel})</Text>
+                    <Text style={[tw`text-black text-sm`, {fontFamily: polices.times_new_roman}]} onPress={() => callPhoneNumber(item.passager.tel)}>({item.passager.tel})</Text>
                 </View>
             </View>
         </Pressable>
@@ -214,7 +214,7 @@ const ReservationCovoiturageModl: React.FC<{visible: boolean, onClose: ()=>void,
                         ListHeaderComponent={loading?<RNSpinner visible={loading} />:undefined}
                         ListEmptyComponent={ 
                             <View>
-                                <Text style={tw`text-gray-400 text-base`}>Aucune réservation disponible</Text>
+                                <Text style={[tw`text-gray-400 text-base`, {fontFamily: polices.times_new_roman}]}>Aucune réservation disponible</Text>
                             </View>
                         }
                         contentContainerStyle={[ tw`px-4 pb-2` ]}
@@ -668,10 +668,10 @@ const ItineraireView: React.FC<ItineraireViewProps> = ({ navigation, route }) =>
                             </View>
                             <View style={[ tw`flex-1` ]}>
                                 <View style={[ tw`border border-slate-200 rounded-md mb-2 bg-gray-200` ]}>
-                                    <Text style={[ tw`p-3 text-slate-600`, {} ]} numberOfLines={1} ellipsizeMode='tail'>{startAddress}</Text>
+                                    <Text style={[ tw`p-3 text-slate-600`, {fontFamily: polices.times_new_roman} ]} numberOfLines={1} ellipsizeMode='tail'>{startAddress}</Text>
                                 </View>
                                 <View style={[ tw`border border-slate-200 rounded-md bg-gray-200` ]}>
-                                    <Text style={[ tw`p-3 text-slate-600`, {} ]} numberOfLines={1} ellipsizeMode='tail'>{endAddress}</Text>
+                                    <Text style={[ tw`p-3 text-slate-600`, {fontFamily: polices.times_new_roman} ]} numberOfLines={1} ellipsizeMode='tail'>{endAddress}</Text>
                                 </View>
                             </View>
                         </View>
@@ -683,14 +683,14 @@ const ItineraireView: React.FC<ItineraireViewProps> = ({ navigation, route }) =>
                                 <Icon type='material-community' name='approximately-equal' size={20} iconStyle={{ color: ColorsEncr.main }} containerStyle={[ tw`mr-1` ]} />
                             )}
                             <Icon type='font-awesome-5' name='car-alt' size={20} iconStyle={{ color: ColorsEncr.main }} containerStyle={[ tw`mr-1` ]} />
-                            <Text style={[ tw`text-xs`, {color: ColorsEncr.main} ]}>{distance}</Text>
+                            <Text style={[ tw`text-xs`, {color: ColorsEncr.main, fontFamily: polices.times_new_roman} ]}>{distance}</Text>
                         </View>
                         <View style={[ tw`flex-row items-center bg-orange-100 rounded-2xl py-1 px-3` ]}>
                             {endFetch && startFetch && (
                                 <Icon type='material-community' name='approximately-equal' size={20} iconStyle={{ color: ColorsEncr.main }} containerStyle={[ tw`mr-1` ]} />
                             )}
                             <Icon type='material-community' name='clock' size={20} iconStyle={{ color: ColorsEncr.main }} />
-                            <Text style={[ tw`text-xs ml-1`, {color: ColorsEncr.main} ]}>{duration}</Text>
+                            <Text style={[ tw`text-xs ml-1`, {color: ColorsEncr.main, fontFamily: polices.times_new_roman} ]}>{duration}</Text>
                         </View>
                     </View>
                 </View>
@@ -849,7 +849,7 @@ const ItineraireView: React.FC<ItineraireViewProps> = ({ navigation, route }) =>
                                 <View style={[ tw`px-30 my-3` ]}>
                                     <Divider />
                                 </View>
-                                <Text style={tw`text-black text-center`}>Verrouillée</Text>
+                                <Text style={[tw`text-black text-center`, {fontFamily: polices.times_new_roman}]}>Verrouillée</Text>
                             </View>
                     : 
                         stateCourse == 1

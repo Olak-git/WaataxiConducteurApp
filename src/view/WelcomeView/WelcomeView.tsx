@@ -6,6 +6,7 @@ import tw from 'twrnc';
 import Base from '../../components/Base';
 import { ColorsEncr } from '../../assets/styles';
 import { setWelcome } from '../../feature/init.slice';
+import { polices } from '../../data/data';
 
 interface WelcomeViewProps {
    navigation: any,
@@ -58,11 +59,11 @@ const WelcomeView: React.FC<WelcomeViewProps> = (props) => {
                 <View style={[ tw`absolute justify-between pt-20 pb-10 left-0 top-0`, {width: '100%', height: '100%'} ]}>
                     
                     <View style={[ tw`` ]}>
-                        <Text style={[ tw`text-lg uppercase text-black text-center` ]}>bienvenue</Text>
-                        <Text style={[ tw`font-medium text-lg uppercase text-black text-center` ]}>sur Waataxi</Text>
+                        <Text style={[ tw`text-lg uppercase text-black text-center`, {fontFamily: polices.times_new_roman} ]}>bienvenue</Text>
+                        <Text style={[ tw`font-medium text-lg uppercase text-black text-center`, {fontFamily: polices.times_new_roman} ]}>sur Waataxi</Text>
                     </View>
                     
-                    {/* <Text style={[ tw`font-black text-center text-black uppercase` ]}>V1.2.3</Text> */}
+                    {/* <Text style={[ tw`font-black text-center text-black uppercase`, {fontFamily: polices.times_new_roman} ]}>V1.2.3</Text> */}
                 </View>
             </View>
         </Base>

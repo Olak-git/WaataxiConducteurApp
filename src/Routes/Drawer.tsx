@@ -15,6 +15,7 @@ import { ActivityIndicator, Badge, Switch as SwitchPaper } from 'react-native-pa
 import { DrawerActions } from '@react-navigation/native';
 import CustomSideMenu from './components/CustomSideMenu';
 import HistoriqueCoursesView from '../view/Dashboard/HistoriqueCoursesView/HistoriqueCoursesView';
+import { polices } from '../data/data';
 
 const HomeHeader: React.FC<{navigation: any}> = ({navigation}) => {
     const notifs = useSelector((state: any) => state.notifications.count)
@@ -63,7 +64,7 @@ const Drawer: React.FC<{navigation: any}> = ({navigation}) => {
                                                 style={[tw`rounded-full`, {height: 70, width: 70}]}
                                             />
                                         </Pressable>
-                                        <Text style={[ tw`text-white font-semibold text-center px-3`, {width: '100%'} ]} numberOfLines={1} ellipsizeMode='tail' >{user.nom.toUpperCase() + ' ' + user.prenom}</Text>
+                                        <Text style={[ tw`text-white font-semibold text-center px-3`, {width: '100%', fontFamily: polices.times_new_roman} ]} numberOfLines={1} ellipsizeMode='tail' >{user.nom.toUpperCase() + ' ' + user.prenom}</Text>
                                     </View>,
                 drawerActiveBackgroundColor: '#fff',
                 drawerItemStyle: [tw`p-0 m-0`, {backgroundColor: ColorsEncr.main, borderRadius: 0}],
@@ -74,8 +75,8 @@ const Drawer: React.FC<{navigation: any}> = ({navigation}) => {
                 <Drawer.Screen  name='DashPortefeuille' component={PortefeuilleView} options={{
                     headerShown: false,
                     drawerLabel: () => <View style={[ tw`px-4` ]}>
-                        <Text style={[ tw`text-gray-800` ]}>Portefeuille</Text>
-                        <Text style={[ tw`text-black font-bold text-xl` ]}>{ getCurrency(user.portefeuille) } F</Text>
+                        <Text style={[ tw`text-gray-800`, {fontFamily: polices.times_new_roman} ]}>Portefeuille</Text>
+                        <Text style={[ tw`text-black font-bold text-xl`, {fontFamily: polices.times_new_roman} ]}>{ getCurrency(user.portefeuille) } F</Text>
                     </View>,
                     drawerItemStyle: [tw`border-b border-slate-50`],
                     drawerLabelStyle: [tw`text-lg text-gray-500`],

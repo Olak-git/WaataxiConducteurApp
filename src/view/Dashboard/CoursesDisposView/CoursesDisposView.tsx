@@ -12,6 +12,8 @@ import RenderItemCourseInstantane from '../../../components/RenderItemCourseInst
 import { setStopped } from '../../../feature/init.slice';
 import { RNSpinner } from '../../../components/RNSpinner';
 import { clearStoreCourses, setCourseConfiguration, setStoreCourseInstantanee } from '../../../feature/courses.slice';
+import { polices } from '../../../data/data';
+import { characters_exists } from '../../../functions/helperFunction';
 
 const timer = require('react-native-timer');
 
@@ -21,7 +23,7 @@ const Body: React.FC<{spinner?: boolean, courses: Array<any>, endFetch: boolean,
     return (
         <>
             {!disponibilite && (
-                <Text style={tw`text-center mb-4 text-red-600 font-bold underline px-3`}>Vous êtes hors service</Text>
+                <Text style={[tw`text-center mb-4 text-red-600 font-bold underline px-3`, {fontFamily: polices.times_new_roman}]}>Vous êtes hors service</Text>
             )}
             <FlatList 
                 removeClippedSubviews={true}
@@ -36,7 +38,7 @@ const Body: React.FC<{spinner?: boolean, courses: Array<any>, endFetch: boolean,
                 }
                 ListEmptyComponent={ 
                     <View>
-                        <Text style={tw`text-gray-400`}>{courseEmptyText}</Text>
+                        <Text style={[tw`text-gray-400`, {fontFamily: polices.times_new_roman}]}>{courseEmptyText}</Text>
                     </View>
                 }
                 data={courses}
@@ -149,9 +151,11 @@ const CoursesDisposView: React.FC<CoursesDisposViewProps> = ({ navigation }) => 
                                 ? ctext.toUpperCase()
                                 : ''.toUpperCase();
                 const textData = text.toUpperCase();
-                return itemData.indexOf(textData) > -1;
+                
+                return characters_exists(textData, itemData)
+                // return itemData.indexOf(textData) > -1;
             });
-            setCourseEmptyText('Aucun résultat trouvé');
+            setCourseEmptyText(`Aucun résultat trouvé pour "${text}"`);
             setCourses(newData);
             setSearch(text);
         } else {

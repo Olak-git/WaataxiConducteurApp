@@ -6,6 +6,7 @@ import AddressPickup from '../../../components/AddressPickup';
 import Header from '../../../components/Header';
 import { Accueil, Accueil2, Destination } from '../../../assets';
 import { toast, windowWidth } from '../../../functions/functions';
+import { polices } from '../../../data/data';
 
 interface FoundLocationViewProps {
     navigation: any,
@@ -68,7 +69,7 @@ const FoundLocationView: React.FC<FoundLocationViewProps> = ({ navigation, route
                     <TouchableOpacity
                         onPress={onDone}
                         style={[ tw`p-2 rounded border border-slate-200`, {}]}>
-                        <Text style={[ tw`text-center font-semibold text-black text-lg` ]}>Valider</Text>
+                        <Text style={[ tw`text-center font-semibold text-black text-lg`, {fontFamily: polices.times_new_roman} ]}>Valider</Text>
                     </TouchableOpacity>
                 </View>
 

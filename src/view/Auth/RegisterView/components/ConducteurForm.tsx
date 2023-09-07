@@ -5,7 +5,7 @@ import tw from 'twrnc';
 import { windowWidth } from '../../../../functions/functions';
 import { ColorsEncr } from '../../../../assets/styles';
 import { Icon } from '@rneui/themed';
-import { otp_authentication } from '../../../../data/data';
+import { otp_authentication, polices } from '../../../../data/data';
 
 interface ConducteurFormProps {
     inputs: any,
@@ -74,16 +74,16 @@ const ConducteurForm: React.FC<ConducteurFormProps> = ({ inputs,handleOnChange =
                 )}
                 <View style={[tw`flex-row justify-between items-center my-3`]}>
                     <View style={tw`flex-1 mr-1`}>
-                        <Text style={tw`text-gray-500 text-lg`}>Photo de profil</Text>
+                        <Text style={[tw`text-gray-500 text-lg`, {fontFamily: polices.times_new_roman}]}>Photo de profil</Text>
                         {avatar && (
                             <Text onPress={() => {
                                 setAvatar(null)
                                 handleOnChange('profil', {});
                                 handleError('img', null);
-                            }} style={[tw`text-center text-xs text-gray-400 border border-red-500 rounded-2xl p-1`, { width: 70 }]}>annuler</Text>
+                            }} style={[tw`text-center text-xs text-gray-400 border border-red-500 rounded-2xl p-1`, { width: 70, fontFamily: polices.times_new_roman }]}>annuler</Text>
                         )}
                         {errors.profil && (
-                            <Text style={tw`text-orange-700 text-sm`}>{errors.profil}</Text>
+                            <Text style={[tw`text-orange-700 text-sm`, {fontFamily: polices.times_new_roman}]}>{errors.profil}</Text>
                         )}
                     </View>
                     <Pressable

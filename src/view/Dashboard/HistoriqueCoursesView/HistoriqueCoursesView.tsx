@@ -9,12 +9,13 @@ import SearchBar from '../../../components/SearchBar';
 import { useDispatch, useSelector } from 'react-redux';
 import { baseUri, fetchUri, getCurrency } from '../../../functions/functions';
 import { ActivityLoading } from '../../../components/ActivityLoading';
-import { getLocalDate, getLocalTime, getLocalTimeStr } from '../../../functions/helperFunction';
+import { characters_exists, getLocalDate, getLocalTime, getLocalTimeStr } from '../../../functions/helperFunction';
 import RenderItemCourseInstantane from '../../../components/RenderItemCourseInstantane';
 import RenderItemCourseCovoiturage from '../../../components/RenderItemCourseCovoiturage';
 import { setStoreHistoryCourses } from '../../../feature/courses.slice';
 import { RNSpinner } from '../../../components/RNSpinner';
 import { useNavigation } from '@react-navigation/native';
+import { polices } from '../../../data/data';
 
 const Body: React.FC<{spinner?: boolean, courses: any, endFetch: boolean, refreshing: boolean, onRefresh: ()=>void, courseEmptyText: string, renderItem?: any, refList: any}> = ({spinner, courses, endFetch, refreshing, onRefresh, courseEmptyText, renderItem, refList}) => {
     const disponibilite = useSelector((state: any) => state.init.disponibilite);const navigation = useNavigation();
@@ -57,7 +58,7 @@ const Body: React.FC<{spinner?: boolean, courses: any, endFetch: boolean, refres
             {courses.instantanes.length == 0 && courses.reservations.length == 0 && courses.covoiturages.length == 0
                 ?
                 <View>
-                    <Text style={tw`text-gray-400`}>{courseEmptyText}</Text>
+                    <Text style={[tw`text-gray-400`, {fontFamily: polices.times_new_roman}]}>{courseEmptyText}</Text>
                 </View>
                 :
                 user.compte_business == 1
@@ -65,36 +66,36 @@ const Body: React.FC<{spinner?: boolean, courses: any, endFetch: boolean, refres
                     <>
                         <View style={[tw`flex-row items-center mb-3`, {}]}>
                             <View style={[tw`flex-1 bg-black`, { height: 1 }]}></View>
-                            <Text style={[tw`text-black text-xs font-bold px-4 border rounded-2xl`]}>Courses instantanées</Text>
+                            <Text style={[tw`text-black text-xs font-bold px-4 border rounded-2xl`, {fontFamily: polices.times_new_roman}]}>Courses instantanées</Text>
                             <View style={[tw`flex-1 bg-black`, { height: 1 }]}></View>
                         </View>
                         {courses.instantanes.length == 0
                             ?
-                            <Text style={tw`text-black mb-3`}>Aucune course disponible.</Text>
+                            <Text style={[tw`text-black mb-3`, {fontFamily: polices.times_new_roman}]}>Aucune course disponible.</Text>
                             :
                             courses.instantanes.map((item: any, index: number) => renderItemCourseInstantane(item, index))
                         }
 
                         <View style={[tw`flex-row items-center mb-3`, {}]}>
                             <View style={[tw`flex-1 bg-black`, { height: 1 }]}></View>
-                            <Text style={[tw`text-black text-xs font-bold px-4 border rounded-2xl`]}>Réservations</Text>
+                            <Text style={[tw`text-black text-xs font-bold px-4 border rounded-2xl`, {fontFamily: polices.times_new_roman}]}>Réservations</Text>
                             <View style={[tw`flex-1 bg-black`, { height: 1 }]}></View>
                         </View>
                         {courses.reservations.length == 0
                             ?
-                            <Text style={tw`text-black mb-3`}>Aucune course disponible.</Text>
+                            <Text style={[tw`text-black mb-3`, {fontFamily: polices.times_new_roman}]}>Aucune course disponible.</Text>
                             :
                             courses.reservations.map((item: any, index: number) => renderItemReservation(item, index))
                         }
 
                         <View style={[tw`flex-row items-center mb-3`, {}]}>
                             <View style={[tw`flex-1 bg-black`, { height: 1 }]}></View>
-                            <Text style={[tw`text-black text-xs font-bold px-4 border rounded-2xl`]}>Covoiturages</Text>
+                            <Text style={[tw`text-black text-xs font-bold px-4 border rounded-2xl`, {fontFamily: polices.times_new_roman}]}>Covoiturages</Text>
                             <View style={[tw`flex-1 bg-black`, { height: 1 }]}></View>
                         </View>
                         {courses.covoiturages.length == 0
                             ?
-                            <Text style={tw`text-black mb-3`}>Aucune course disponible.</Text>
+                            <Text style={[tw`text-black mb-3`, {fontFamily: polices.times_new_roman}]}>Aucune course disponible.</Text>
                             :
                             courses.covoiturages.map((item: any, index: number) => renderItemCovoiturage(item, index))
                         }
@@ -102,7 +103,7 @@ const Body: React.FC<{spinner?: boolean, courses: any, endFetch: boolean, refres
                     :
                     courses.covoiturages.length == 0
                         ?
-                        <Text style={tw`text-black mb-3`}>Aucune course disponible.</Text>
+                        <Text style={[tw`text-black mb-3`, {fontFamily: polices.times_new_roman}]}>Aucune course disponible.</Text>
                         :
                         courses.covoiturages.map((item: any, index: number) => renderItemCovoiturage(item, index))
             }
@@ -219,7 +220,9 @@ const HistoriqueCoursesView: React.FC<HistoriqueCoursesViewProps> = ({ navigatio
                                 ? ctext.toUpperCase()
                                 : ''.toUpperCase();
                 const textData = text.toUpperCase();
-                return itemData.indexOf(textData) > -1;
+
+                return characters_exists(textData, itemData)
+                // return itemData.indexOf(textData) > -1;
             });
             const newData2 = masterCourses.reservations.filter(function (item: any) {
                 // Applying filter for the inserted text in search bar
@@ -229,7 +232,9 @@ const HistoriqueCoursesView: React.FC<HistoriqueCoursesViewProps> = ({ navigatio
                                 ? ctext.toUpperCase()
                                 : ''.toUpperCase();
                 const textData = text.toUpperCase();
-                return itemData.indexOf(textData) > -1;
+
+                return characters_exists(textData, itemData)
+                // return itemData.indexOf(textData) > -1;
             });
             const newData3 = masterCourses.covoiturages.filter(function (item: any) {
                 // Applying filter for the inserted text in search bar
@@ -239,9 +244,11 @@ const HistoriqueCoursesView: React.FC<HistoriqueCoursesViewProps> = ({ navigatio
                                 ? ctext.toUpperCase()
                                 : ''.toUpperCase();
                 const textData = text.toUpperCase();
-                return itemData.indexOf(textData) > -1;
+                
+                return characters_exists(textData, itemData)
+                // return itemData.indexOf(textData) > -1;
             });
-            setCourseEmptyText('Aucun résultat trouvé');
+            setCourseEmptyText(`Aucun résultat trouvé pour "${text}"`);
             // setCourses(newData);
             setCourses((state: any) => ({
                 ...state,

@@ -13,7 +13,7 @@ import { setDisponibiliteCourse, setDisponibiliteReservation } from '../../../fe
 import Spinner from 'react-native-spinkit';
 import { RNDivider } from '../../../components/RNDivider';
 import { CommonActions } from '@react-navigation/native';
-import { google_maps_apikey } from '../../../data/data';
+import { google_maps_apikey, polices } from '../../../data/data';
 import { setReload } from '../../../feature/reload.slice';
 import { addCourse, addReservation, deleteCourse, deleteReservation } from '../../../feature/course.slice';
 import Geocoder from 'react-native-geocoding';
@@ -179,7 +179,7 @@ const FinitionView: React.FC<FinitionViewProps> = ({ navigation, route }) => {
             <>
                 <ScrollView contentContainerStyle={tw`px-5 pt-5`}>
                     <View style={tw`mb-5`}>
-                        <Text style={tw`font-black text-center text-black`}>Course Terminée</Text>
+                        <Text style={[tw`font-black text-center text-black`, {fontFamily: polices.times_new_roman}]}>Course Terminée</Text>
                         <View style={tw`mt-2 px-10`}>
                             <Divider color='gray' />
                         </View>
@@ -188,15 +188,15 @@ const FinitionView: React.FC<FinitionViewProps> = ({ navigation, route }) => {
                         <View style={[tw`flex-row items-start mb-2`]}>
                             <Icon type='font-awesome' name='circle-thin' size={22} containerStyle={[tw``, {width: 30}]} />
                             <View style={[tw`ml-2`]}>
-                                <Text style={tw`text-gray-500`}>Point de départ</Text>
-                                <Text style={[tw`text-black`, {}]}>{course.adresse_depart}</Text>
+                                <Text style={[tw`text-gray-500`, {fontFamily: polices.times_new_roman}]}>Point de départ</Text>
+                                <Text style={[tw`text-black`, {fontFamily: polices.times_new_roman}]}>{course.adresse_depart}</Text>
                             </View>
                         </View>
                         <View style={[tw`flex-row items-start mb-2`]}>
                             <Icon type='font-awesome-5' name='map-marker-alt' color={'red'} containerStyle={[tw``, {width: 30}]} />
                             <View style={[tw`ml-2`]}>
-                                <Text style={tw`text-gray-500`}>Point d'arrivé</Text>
-                                <Text style={[tw`text-black`, {}]}>{course.adresse_arrive}</Text>
+                                <Text style={[tw`text-gray-500`, {fontFamily: polices.times_new_roman}]}>Point d'arrivé</Text>
+                                <Text style={[tw`text-black`, {fontFamily: polices.times_new_roman}]}>{course.adresse_arrive}</Text>
                             </View>
                         </View>
                     </View>
@@ -204,19 +204,19 @@ const FinitionView: React.FC<FinitionViewProps> = ({ navigation, route }) => {
                     {/* <View style={[ tw`flex-row justify-between px-2 mt-3` ]}>
                             <View style={[ tw`flex-row items-center bg-orange-100 rounded-2xl py-1 px-3` ]}>
                                 <Icon type='font-awesome-5' name='car-alt' size={20} iconStyle={{ color: ColorsEncr.main }} containerStyle={[ tw`mr-1` ]} />
-                                <Text style={[ tw`text-xs`, {color: ColorsEncr.main} ]}>{distance}</Text>
+                                <Text style={[ tw`text-xs`, {color: ColorsEncr.main, fontFamily: polices.times_new_roman} ]}>{distance}</Text>
                             </View>
                             <View style={[ tw`flex-row items-center bg-orange-100 rounded-2xl py-1 px-3` ]}>
                                 <Icon type='material-community' name='approximately-equal' size={20} iconStyle={{ color: ColorsEncr.main }} containerStyle={[ tw`mr-1` ]} />
                                 <Icon type='material-community' name='clock' size={20} iconStyle={{ color: ColorsEncr.main }} />
-                                <Text style={[ tw`text-xs ml-1`, {color: ColorsEncr.main} ]}>{duration}</Text>
+                                <Text style={[ tw`text-xs ml-1`, {color: ColorsEncr.main, fontFamily: polices.times_new_roman} ]}>{duration}</Text>
                             </View>
                         </View> */}
 
                     <View style={tw`items-center mt-5`}>
                         <Icon type='font-awesome-5' name='car-alt' size={35} reverse />
-                        <Text style={tw`mb-2 text-black`}>Distance du trajet parcouru</Text>
-                        <Text style={[tw`text-black text-xl font-bold`]}>{distance}</Text>
+                        <Text style={[tw`mb-2 text-black`, {fontFamily: polices.times_new_roman}]}>Distance du trajet parcouru</Text>
+                        <Text style={[tw`text-black text-xl font-bold`, {fontFamily: polices.times_new_roman}]}>{distance}</Text>
                     </View>
 
                     <View style={tw`mt-5 px-10`}>
@@ -224,12 +224,12 @@ const FinitionView: React.FC<FinitionViewProps> = ({ navigation, route }) => {
                     </View>
 
                     <View style={tw`items-center mt-2`}>
-                        <Text style={tw`mb-2 text-black`}>Tarif de la course</Text>
-                        <Text style={[tw`text-black text-2xl font-black bg-gray-100 p-4`]}>{getCurrency(tarif)} FCFA</Text>
+                        <Text style={[tw`mb-2 text-black`, {fontFamily: polices.times_new_roman}]}>Tarif de la course</Text>
+                        <Text style={[tw`text-black text-2xl font-black bg-gray-100 p-4`, {fontFamily: polices.times_new_roman}]}>{getCurrency(tarif)} FCFA</Text>
                     </View>
                     <View style={tw`items-center mt-4`}>
                         <Icon type='material-community' name='chat-question' size={25} />
-                        <Text style={tw`mb-2 text-black`}>Il sera prélevé de votre portefeuille {configuration ? configuration.commission_course : 'x'}% du tarif de la course.</Text>
+                        <Text style={[tw`mb-2 text-black`, {fontFamily: polices.times_new_roman}]}>Il sera prélevé de votre portefeuille {configuration ? configuration.commission_course : 'x'}% du tarif de la course.</Text>
                     </View>
 
                     <View style={tw`mt-5 px-10`}>
@@ -237,17 +237,17 @@ const FinitionView: React.FC<FinitionViewProps> = ({ navigation, route }) => {
                     </View>
 
                     <View style={tw`mt-4`}>
-                        <Text style={tw`text-black font-bold`}>Passager:</Text>
+                        <Text style={[tw`text-black font-bold`, {fontFamily: polices.times_new_roman}]}>Passager:</Text>
                         <View style={tw`flex-row justify-between items-center`}>
-                            <Text style={tw`text-black`}>{passager.nom} {passager.prenom}</Text>
-                            <Text style={tw`text-black`}>{passager.tel}</Text>
+                            <Text style={[tw`text-black`, {fontFamily: polices.times_new_roman}]}>{passager.nom} {passager.prenom}</Text>
+                            <Text style={[tw`text-black`, {fontFamily: polices.times_new_roman}]}>{passager.tel}</Text>
                         </View>
                         {configuration && (
                             <Pressable
                                 onPress={() => navigation.navigate('DashNotationPassager', { passager: passager })}
                                 style={tw`mt-3`}
                             >
-                                <Text style={tw`text-red-800`}>Notez votre passager</Text>
+                                <Text style={[tw`text-red-800`, {fontFamily: polices.times_new_roman}]}>Notez votre passager</Text>
                             </Pressable>
                         )}
                     </View>

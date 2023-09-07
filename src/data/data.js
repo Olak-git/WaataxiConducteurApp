@@ -33,7 +33,8 @@ export const account = 'conducteur';
 export const phone_number_test = '41414141';
 
 export const polices = {
-    font1: Platform.OS == 'android' ? 'IbarraRealNova-VariableFont_wght' : 'PatrickHand-Regular'
+    font1: Platform.OS == 'android' ? 'IbarraRealNova-VariableFont_wght' : 'PatrickHand-Regular',
+    times_new_roman: Platform.OS == 'android' ? 'times-new-roman' : 'times new roman',
 }
 
 export const app_links = {

@@ -15,6 +15,7 @@ import FlashMessage from '../../../components/FlashMessage';
 import WebView from 'react-native-webview';
 import { ActivityLoading } from '../../../components/ActivityLoading';
 import { getErrorsToString } from '../../../functions/helperFunction';
+import { polices } from '../../../data/data';
 
 interface PortefeuilleViewProps {
     navigation: any
@@ -203,7 +204,7 @@ const PortefeuilleView: React.FC<PortefeuilleViewProps> = ({ navigation }) => {
                                 onPress={() => setShowGateway(false)}>
                                 <Icon type='feather' name='x' color='#000000' size={24} />
                             </TouchableOpacity>
-                            <Text style={{ flex: 1, textAlign: 'center', fontSize: 16, fontWeight: 'bold', color: '#00457C' }}>GateWay</Text>
+                            <Text style={{ flex: 1, textAlign: 'center', fontSize: 16, fontWeight: 'bold', color: '#00457C', fontFamily: polices.times_new_roman }}>GateWay</Text>
                             <View style={{ padding: 13, opacity: prog ? 1 : 0 }}>
                                 <ActivityIndicator size={24} color={ progClr } />
                             </View>
@@ -251,8 +252,8 @@ const PortefeuilleView: React.FC<PortefeuilleViewProps> = ({ navigation }) => {
                             size={70}
                             color='rgb(30, 41, 59)'/>
                         <View style={[ tw`ml-3` ]}>
-                            <Text style={[ tw`text-gray-500` ]}>Solde actuel</Text>
-                            <Text style={[ tw`text-black font-bold text-3xl`, {color: ColorsEncr.main} ]}>{getCurrency(user.portefeuille)} F</Text>
+                            <Text style={[ tw`text-gray-500`, {fontFamily: polices.times_new_roman} ]}>Solde actuel</Text>
+                            <Text style={[ tw`text-black font-bold text-3xl`, {color: ColorsEncr.main, fontFamily: polices.times_new_roman} ]}>{getCurrency(user.portefeuille)} F</Text>
                         </View>
                     </View>
 
@@ -260,15 +261,15 @@ const PortefeuilleView: React.FC<PortefeuilleViewProps> = ({ navigation }) => {
                     ?
                     <>
                         <View style={[ tw`my-3` ]}>
-                            <Text style={[ tw`text-center font-semibold text-black text-xl mb-10 uppercase` ]}>retrait</Text>
+                            <Text style={[ tw`text-center font-semibold text-black text-xl mb-10 uppercase`, {fontFamily: polices.times_new_roman} ]}>retrait</Text>
                             {/* <View style={[ tw`flex-row items-center px-10 my-5` ]}>
                                 <Icon
                                     type='ionicon'
                                     name='md-person-circle-sharp'
                                     size={50} />
                                 <View style={[ tw`ml-3` ]}>
-                                    <Text style={[ tw`text-black text-lg font-medium` ]}>{user.nom + ' ' + user.prenom}</Text>
-                                    <Text style={[ tw`text-gray-600` ]}>{user.tel}</Text>
+                                    <Text style={[ tw`text-black text-lg font-medium`, {fontFamily: polices.times_new_roman} ]}>{user.nom + ' ' + user.prenom}</Text>
+                                    <Text style={[ tw`text-gray-600`, {fontFamily: polices.times_new_roman} ]}>{user.tel}</Text>
                                 </View>
                             </View> */}
                             
@@ -285,8 +286,8 @@ const PortefeuilleView: React.FC<PortefeuilleViewProps> = ({ navigation }) => {
                                 inputContainerStyle={[ tw`border rounded`, {height: 45} ]}
                                 constructHelper={
                                     <View style={[ tw`flex-row justify-between items-center mt-1` ]}>
-                                        <Text style={[ tw`text-gray-600` ]}>Solde minimale:</Text>
-                                        <Text style={[ tw`text-gray-600` ]}>500 F</Text>
+                                        <Text style={[ tw`text-gray-600`, {fontFamily: polices.times_new_roman} ]}>Solde minimale:</Text>
+                                        <Text style={[ tw`text-gray-600`, {fontFamily: polices.times_new_roman} ]}>500 F</Text>
                                     </View>
                                 } 
                             />
@@ -296,14 +297,14 @@ const PortefeuilleView: React.FC<PortefeuilleViewProps> = ({ navigation }) => {
                             <Pressable
                                 onPress={getCash}
                                 style={[ tw`py-3 px-4 rounded`, {backgroundColor: ColorsEncr.main} ]}>
-                                <Text style={[ tw`ml-2 text-black text-base text-center` ]}>Demander un retrait</Text>
+                                <Text style={[ tw`ml-2 text-black text-base text-center`, {fontFamily: polices.times_new_roman} ]}>Demander un retrait</Text>
                             </Pressable>
                         </View>
                     </>
                     :
                     <>
                         <View style={[ tw`my-3` ]}>
-                            <Text style={[ tw`text-center font-semibold text-black text-xl mb-10` ]}>Recharger votre compte</Text>
+                            <Text style={[ tw`text-center font-semibold text-black text-xl mb-10`, {fontFamily: polices.times_new_roman} ]}>Recharger votre compte</Text>
                             <InputForm
                                 containerStyle={tw`px-10`}
                                 label='Montant à recharger'
@@ -317,8 +318,8 @@ const PortefeuilleView: React.FC<PortefeuilleViewProps> = ({ navigation }) => {
                                 inputContainerStyle={[ tw`border rounded`, {height: 45} ]}
                                 constructHelper={
                                     <View style={[ tw`flex-row justify-between items-center mt-1` ]}>
-                                        <Text style={[ tw`text-gray-600` ]}>Recharge minimale:</Text>
-                                        <Text style={[ tw`text-gray-600` ]}>500 F</Text>
+                                        <Text style={[ tw`text-gray-600`, {fontFamily: polices.times_new_roman} ]}>Recharge minimale:</Text>
+                                        <Text style={[ tw`text-gray-600`, {fontFamily: polices.times_new_roman} ]}>500 F</Text>
                                     </View>
                                 } 
                             />
@@ -329,7 +330,7 @@ const PortefeuilleView: React.FC<PortefeuilleViewProps> = ({ navigation }) => {
                                 onPress={onHandleMontant}
                                 activeOpacity={0.5}
                                 style={[ tw`py-3 px-4 rounded`, {backgroundColor: ColorsEncr.main} ]}>
-                                <Text style={[ tw`ml-2 text-black text-base text-center` ]}>Recharger</Text>
+                                <Text style={[ tw`ml-2 text-black text-base text-center`, {fontFamily: polices.times_new_roman} ]}>Recharger</Text>
                             </TouchableOpacity>
                         </View>
                     </>
@@ -349,6 +350,7 @@ const PortefeuilleView: React.FC<PortefeuilleViewProps> = ({ navigation }) => {
                         icon={{ name: 'add', color: '#fff' }}
                         color={ColorsEncr.main}
                         title="Recharger mon compte"
+                        titleStyle={{ fontFamily: polices.times_new_roman }}
                         onPress={() => {
                             setDial(false);
                             setOpen(false);
@@ -360,6 +362,7 @@ const PortefeuilleView: React.FC<PortefeuilleViewProps> = ({ navigation }) => {
                             icon={{ name: 'delete', color: '#fff' }} 
                             color={ColorsEncr.main} 
                             title="Demander un retrait" 
+                            titleStyle={{ fontFamily: polices.times_new_roman }}
                             onPress={() => {
                                 setDial(true);
                                 setOpen(false);
