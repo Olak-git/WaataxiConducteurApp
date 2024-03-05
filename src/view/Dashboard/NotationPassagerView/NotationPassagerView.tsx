@@ -9,7 +9,7 @@ import InputForm from '../../../components/InputForm';
 import TextareaForm from '../../../components/TextareaForm';
 import { Rating } from 'react-native-ratings';
 import { useDispatch, useSelector } from 'react-redux';
-import { baseUri, fetchUri } from '../../../functions/functions';
+import { api_ref, apiv3, baseUri, fetchUri } from '../../../functions/functions';
 import { ModalValidationForm } from '../../../components/ModalValidationForm';
 import { ActivityLoading } from '../../../components/ActivityLoading';
 import { setReload } from '../../../feature/reload.slice';
@@ -17,6 +17,8 @@ import { RNPModal } from '../../../components/RNPModal';
 import { ImageSource } from 'react-native-vector-icons/Icon';
 import ImageView from 'react-native-image-viewing';
 import { polices } from '../../../data/data';
+import { getClientRates, updateClientRate } from '../../../services/races';
+import { getErrorResponse } from '../../../functions/helperFunction';
 
 const SectionData: React.FC<{
     iconType?: string,
@@ -72,7 +74,8 @@ const NotationPassagerView: React.FC<NotationPassagerViewProps> = ({ navigation,
         formData.append('token', user.slug);
         formData.append('to', passager.slug);
         formData.append('score', rating.unit);
-        fetch(fetchUri, {
+
+        fetch(apiv3 ? api_ref + '/update_client_rate.php' : fetchUri, {
             method: 'POST',
             body: formData,
             headers: {
@@ -92,8 +95,12 @@ const NotationPassagerView: React.FC<NotationPassagerViewProps> = ({ navigation,
             }
         })
         .catch(error => {
-            setShow(false);
+            // setShow(false);
             console.log(error);
+            getErrorResponse(error)
+        })
+        .finally(() => {
+            setShow(false);
         })
     }
 
@@ -102,7 +109,8 @@ const NotationPassagerView: React.FC<NotationPassagerViewProps> = ({ navigation,
         formData.append('js', null);
         formData.append('data-user', passager.slug);
         formData.append('token', user.slug);
-        fetch(fetchUri, {
+
+        fetch(apiv3 ? api_ref + '/get_client_rates.php' : fetchUri, {
             method: 'POST',
             body: formData,
             headers: {
@@ -122,7 +130,10 @@ const NotationPassagerView: React.FC<NotationPassagerViewProps> = ({ navigation,
         })
         .catch(error => {
             console.log('Error: ', error)
-            console.log(error);
+            getErrorResponse(error)
+        })
+        .finally(() => {
+            setEndFetch(true);
         })
     }
 

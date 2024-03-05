@@ -6,11 +6,13 @@ import tw from 'twrnc';
 import { ColorsEncr } from '../../../assets/styles';
 import { Divider, Icon } from '@rneui/base';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUri, getCurrency, windowWidth } from '../../../functions/functions';
+import { api_ref, apiv3, fetchUri, getCurrency, windowWidth } from '../../../functions/functions';
 import { ActivityLoading } from '../../../components/ActivityLoading';
 import Chart from './components/Chart';
 import Chartjs from './components/Chartjs';
 import { setStopped } from '../../../feature/init.slice';
+import { getChart } from '../../../services/races';
+import { getErrorResponse } from '../../../functions/helperFunction';
 
 interface BilanViewProps {
     navigation: any
@@ -38,7 +40,8 @@ const BilanView: React.FC<BilanViewProps> = ({ navigation }) => {
         formData.append('js', null)
         formData.append('chart', null)
         formData.append('token', user.slug)
-        fetch(fetchUri, {
+
+        fetch(apiv3 ? api_ref + '/get_chart.php' : fetchUri, {
             method: 'POST',
             body: formData
         })
@@ -71,6 +74,7 @@ const BilanView: React.FC<BilanViewProps> = ({ navigation }) => {
         })
         .catch(e => {
             console.log(e)
+            getErrorResponse(e)
         })
         .finally(() => {
             setEndFetch(true)

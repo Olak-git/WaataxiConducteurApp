@@ -4,14 +4,15 @@ import tw from 'twrnc';
 import { ColorsEncr } from '../../../../assets/styles';
 import InputForm from '../../../../components/InputForm';
 import { Drapeau, Logo } from '../../../../assets';
-import { baseUri, fetchUri, toast } from '../../../../functions/functions';
-import { clear_format_tel, clone, format_tel } from '../../../../functions/helperFunction';
+import { api_ref, apiv3, baseUri, fetchUri, toast } from '../../../../functions/functions';
+import { clear_format_tel, clone, format_tel, getErrorResponse } from '../../../../functions/helperFunction';
 import { setUser } from '../../../../feature/user.slice';
 import { useDispatch } from 'react-redux';
 import { ModalValidationForm } from '../../../../components/ModalValidationForm';
 import CountryPicker, { Country, CountryCode } from 'react-native-country-picker-modal'
 import { Icon } from '@rneui/base';
 import { polices } from '../../../../data/data';
+import { checkAccount } from '../../../../services/races';
 
 interface AuthTelNumberViewProps {
     setConfirm: any,
@@ -50,7 +51,8 @@ const AuthTelNumberView:React.FC<AuthTelNumberViewProps> = ({ setConfirm = ()=>{
         const formData = new FormData();
         formData.append('js', null);
         formData.append('verify[tel]', `+${callingCode}${phone}`);
-        fetch(fetchUri, {
+
+        fetch(apiv3 ? api_ref + '/check_account.php' : fetchUri, {
             method: 'POST',
             body: formData,
             headers: {
@@ -83,9 +85,14 @@ const AuthTelNumberView:React.FC<AuthTelNumberViewProps> = ({ setConfirm = ()=>{
         })
         .catch(error => {
             console.log(error)
+            // setProgress(false);
+            // setDisable(false);
+            // toast('DANGER', JSON.stringify(error), true, 'Erreur');
+            getErrorResponse(error)
+        })
+        .finally(() => {
             setProgress(false);
             setDisable(false);
-            toast('DANGER', JSON.stringify(error), true, 'Erreur');
         })
     }
 

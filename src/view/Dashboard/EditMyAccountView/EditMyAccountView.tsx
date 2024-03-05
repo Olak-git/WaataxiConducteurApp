@@ -13,10 +13,11 @@ import { deleteUser, setUser } from '../../../feature/user.slice';
 import FilePicker, { types } from 'react-native-document-picker';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { ModalValidationForm } from '../../../components/ModalValidationForm';
-import { baseUri, fetchUri, toast, validateEmail } from '../../../functions/functions';
-import { clone, storagePermission } from '../../../functions/helperFunction';
+import { api_ref, apiv3, baseUri, fetchUri, toast, validateEmail } from '../../../functions/functions';
+import { clone, getErrorResponse, storagePermission } from '../../../functions/helperFunction';
 import FlashMessage from '../../../components/FlashMessage';
 import { polices } from '../../../data/data';
+import { editProfile } from '../../../services/races';
 
 const SectionData: React.FC<{
     iconType?: string,
@@ -170,7 +171,8 @@ const EditMyAccountView: React.FC<EditMyAccountViewProps> = ({ navigation }) => 
             if(Object.keys(inputs.img).length > 0) {
                 formData.append('img', inputs.img);
             }
-            fetch(fetchUri, {
+
+            fetch(apiv3 ? api_ref + '/edit_profile.php' : fetchUri, {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -200,8 +202,12 @@ const EditMyAccountView: React.FC<EditMyAccountViewProps> = ({ navigation }) => 
                 }
             })
             .catch(error => {
-                setShowModal(false);
+                // setShowModal(false);
                 console.log(error)
+                getErrorResponse(error)
+            })
+            .finally(() => {
+                setShowModal(false);
             })
         }
     }

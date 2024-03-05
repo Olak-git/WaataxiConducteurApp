@@ -3,10 +3,12 @@ import { Text, TextInput, TouchableOpacity, View, StyleSheet, ScrollView, Platfo
 import tw from 'twrnc';
 import { ColorsEncr } from '../../../../assets/styles';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUri } from '../../../../functions/functions';
+import { api_ref, apiv3, fetchUri } from '../../../../functions/functions';
 import InputForm from '../../../../components/InputForm';
 import { Button } from 'react-native-paper';
 import { account, polices } from '../../../../data/data';
+import { signin } from '../../../../services/races';
+import { getErrorResponse } from '../../../../functions/helperFunction';
 
 interface AuthViewProps {
     setConfirm: any,
@@ -41,7 +43,8 @@ const AuthView:React.FC<AuthViewProps> = ({ setConfirm, errors, handleError, inp
             formData.append('signin[account]', account);
             formData.append('signin[password]', inputs.password);
             formData.append('signin[tel]', user.tel);
-            fetch(fetchUri, {
+
+            fetch(apiv3 ? api_ref + '/signin.php' : fetchUri, {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -52,8 +55,8 @@ const AuthView:React.FC<AuthViewProps> = ({ setConfirm, errors, handleError, inp
             .then(response => response.json())
             .then(json => {
                 console.log(json)
-                setLoading(false);
-                setDisable(false);
+                // setLoading(false);
+                // setDisable(false);
                 if(json.success) {
                     const user = json.user;
                     if(user) {
@@ -70,9 +73,12 @@ const AuthView:React.FC<AuthViewProps> = ({ setConfirm, errors, handleError, inp
                 }
             })
             .catch(error => {
+                console.log(error)
+                getErrorResponse(error)
+            })
+            .finally(() => {
                 setLoading(false);
                 setDisable(false);
-                console.log(error)
             })
         }
     }

@@ -5,7 +5,7 @@ import MapView, { AnimatedRegion, Marker } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import { google_maps_apikey, imageMapPath, LATITUDE_DELTA, LONGITUDE_DELTA, polices } from '../../../data/data';
 import tw from 'twrnc';
-import { locationPermission, getCurrentLocation, getErrorsToString, openUrl, openCoordonateOnMap, callPhoneNumber } from '../../../functions/helperFunction';
+import { locationPermission, getCurrentLocation, getErrorsToString, openUrl, openCoordonateOnMap, callPhoneNumber, getErrorResponse } from '../../../functions/helperFunction';
 import { ActivityLoading } from '../../../components/ActivityLoading';
 import Header from '../../../components/Header';
 import { Divider, Icon } from '@rneui/base';
@@ -14,7 +14,7 @@ import Geocoder from 'react-native-geocoding';
 import { useDispatch, useSelector } from 'react-redux';
 import { setDialogCovoiturage } from '../../../feature/dialog.slice';
 import RNMarker from '../../../components/RNMarker';
-import { baseUri, fetchUri, toast, windowHeight } from '../../../functions/functions';
+import { api_ref, apiv3, baseUri, fetchUri, toast, windowHeight } from '../../../functions/functions';
 import { ModalValidationForm } from '../../../components/ModalValidationForm';
 import { setDisponibiliteCourse, setDisponibiliteReservation } from '../../../feature/init.slice';
 import { addCourse, setCourse as setCourseSlice, addReservation, setReservation } from '../../../feature/course.slice';
@@ -25,6 +25,7 @@ import CompoMarker from '../../../components/CompoMarker';
 import CompoMarkerAnimated from '../../../components/CompoMarkerAnimated';
 import { RNPModal } from '../../../components/RNPModal';
 import { RNSpinner } from '../../../components/RNSpinner';
+import { acceptInstantRace, acceptReservationInstantRace, getReservationsCarsharing, updateStateCarsharingRace, updateStateInstantRace, updateStateReservationOrInstantRace } from '../../../services/races';
 
 Geocoder.init(google_maps_apikey, {language : "fr"});
 
@@ -155,7 +156,8 @@ const ReservationCovoiturageModl: React.FC<{visible: boolean, onClose: ()=>void,
         formData.append('reservations-covoiturage', null);
         formData.append('token', user_key);
         formData.append('course', course_key);
-        fetch(fetchUri, {
+
+        fetch(apiv3 ? api_ref + '/get_reservations_carsharing.php' : fetchUri, {
             method: 'POST',
             body: formData,
             headers: {
@@ -173,7 +175,8 @@ const ReservationCovoiturageModl: React.FC<{visible: boolean, onClose: ()=>void,
             }
         })
         .catch(error => {
-            console.log(error);
+            // console.log(error);
+            getErrorResponse(error)
         })
         .finally(()=>{
             setLoading(false)
@@ -475,18 +478,23 @@ const ItineraireView: React.FC<ItineraireViewProps> = ({ navigation, route }) =>
                     dispatch(setCourseSlice({ [course.slug]: { end: response } }))
                 }
             }
+            var uri = '';
             const formData = new FormData();
             formData.append('js', null);
             if(category == 'reservation') {
                 formData.append('upd-state-reservation', action);
+                uri = 'update_state_reservation_or_instant_race.php';
             } else if(category == 'ci') {
                 formData.append('upd-state-course', action);
+                uri = 'update_state_instant_race.php'
             } else if(category == 'covoiturage') {
                 formData.append('upd-state-covoiturage', action);
+                uri = 'update_state_carsharing_race.php'
             }
             formData.append('token', user.slug);
             formData.append('course', course.slug);
-            fetch(fetchUri, {
+
+            fetch(apiv3 ? api_ref + `/${uri}` : fetchUri, {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -534,8 +542,12 @@ const ItineraireView: React.FC<ItineraireViewProps> = ({ navigation, route }) =>
                 }
             })
             .catch(error => {
-                setVisible(state => ({...state, modal: false}));
+                // setVisible(state => ({...state, modal: false}));
                 console.log(error)
+                getErrorResponse(error)
+            })
+            .finally(() => {
+                setVisible(state => ({...state, modal: false}));
             })
         }
     }
@@ -543,17 +555,21 @@ const ItineraireView: React.FC<ItineraireViewProps> = ({ navigation, route }) =>
     const onAcceptCourse = () => {
         setVisible(state => ({...state, modal: true}));
         hideReservationCourse()
+        var uri;
         const formData = new FormData();
         formData.append('js', null);
         formData.append('token', user.slug);
         if(category == 'ci') {
             formData.append('accept-course', null);
             formData.append('course', course.slug);
+            uri = 'accept_instant_race.php'
         } else if(category == 'reservation') {
             formData.append('accept-reservation', null);
             formData.append('reservation', course.slug);
+            uri = 'accept_reservation_instant_race.php'
         }
-        fetch(fetchUri, {
+
+        fetch(apiv3 ? api_ref + `/${uri}` : fetchUri, {
             method: 'POST',
             body: formData,
             headers: {
@@ -582,8 +598,12 @@ const ItineraireView: React.FC<ItineraireViewProps> = ({ navigation, route }) =>
             }
         })
         .catch(error => {
-            setVisible(state => ({...state, modal: false}));
+            // setVisible(state => ({...state, modal: false}));
             console.log(error)
+            getErrorResponse(error)
+        })
+        .finally(() => {
+            setVisible(state => ({...state, modal: false}));
         })
     }
 

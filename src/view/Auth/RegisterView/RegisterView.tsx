@@ -4,7 +4,7 @@ import { Keyboard, Platform, Pressable, ScrollView, Text, TouchableOpacity, useW
 import Base from '../../../components/Base';
 import tw from 'twrnc';
 import { ColorsEncr } from '../../../assets/styles';
-import { baseUri, fetchUri, format_size, validateEmail, validatePassword, windowHeight } from '../../../functions/functions';
+import { api_ref, apiv3, baseUri, fetchUri, format_size, validateEmail, validatePassword, windowHeight } from '../../../functions/functions';
 import FilePicker, { types } from 'react-native-document-picker';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import InputForm from '../../../components/InputForm';
@@ -13,10 +13,11 @@ import ConducteurForm from './components/ConducteurForm';
 import CovoiturageForm from './components/CovoiturageForm';
 import { useDispatch, useSelector } from 'react-redux';
 import { ModalValidationForm } from '../../../components/ModalValidationForm';
-import { clone, storagePermission } from '../../../functions/helperFunction';
+import { clone, getErrorResponse, storagePermission } from '../../../functions/helperFunction';
 import { setUser } from '../../../feature/user.slice';
 import { otp_authentication, polices } from '../../../data/data';
 import { setDisponibiliteCourse, setDisponibiliteReservation, setStopped, setWithPortefeuille } from '../../../feature/init.slice';
+import { signup } from '../../../services/races';
 
 interface RegisterViewProps {
     navigation: any,
@@ -326,7 +327,8 @@ const RegisterView:React.FC<RegisterViewProps> = ({ navigation, route }) => {
                 formData.append('img', inputs.profil);
             }
             console.log('FormData:', formData);
-            fetch(fetchUri, {
+
+            fetch(apiv3 ? api_ref + '/signup.php' : fetchUri, {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -362,6 +364,10 @@ const RegisterView:React.FC<RegisterViewProps> = ({ navigation, route }) => {
             .catch(error => {
                 setVisible(false);
                 console.log(error)
+                getErrorResponse(error)
+            })
+            .finally(() => {
+                setVisible(false);
             })
         }
     }

@@ -4,12 +4,13 @@ import tw from 'twrnc';
 import { ColorsEncr } from '../../../../assets/styles';
 import InputForm from '../../../../components/InputForm';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUri, toast } from '../../../../functions/functions';
+import { api_ref, apiv3, fetchUri, toast } from '../../../../functions/functions';
 import { setUser } from '../../../../feature/user.slice';
-import { getErrorsToString } from '../../../../functions/helperFunction';
+import { getErrorResponse, getErrorsToString } from '../../../../functions/helperFunction';
 import CountryPicker, { Country, CountryCode } from 'react-native-country-picker-modal'
 import { Icon } from '@rneui/base';
 import { account, polices } from '../../../../data/data';
+import { updatePhoneNumber } from '../../../../services/races';
 
 interface AuthTelNumberViewProps {
     navigation: any,
@@ -59,7 +60,8 @@ const AuthTelNumberView:React.FC<AuthTelNumberViewProps> = ({ navigation, setVis
         formData.append('tel', `+${callingCode}${inputs.phone}`.replace(/\s/g, ''));
         formData.append('country', country);
         formData.append('country_code', countryCode);
-        fetch(fetchUri, {
+
+        fetch(apiv3 ? api_ref + '/update_phone_number.php' : fetchUri, {
             method: 'POST',
             body: formData,
             headers: {
@@ -68,7 +70,7 @@ const AuthTelNumberView:React.FC<AuthTelNumberViewProps> = ({ navigation, setVis
         })
         .then(response => response.json())
         .then(async json => {
-            setVisible(false);
+            // setVisible(false);
             if(json.success) {
                 await dispatch(setUser({tel: json.user.tel, portefeuille: json.user.portefeuille}));
                 toast('SUCCESS', 'Votre numéro de téléphone a été modifié.', true, 'Succès');
@@ -79,8 +81,11 @@ const AuthTelNumberView:React.FC<AuthTelNumberViewProps> = ({ navigation, setVis
             }
         })
         .catch(error => {
-            setVisible(false);
             console.log(error)
+            getErrorResponse(error)
+        })
+        .finally(() => {
+            setVisible(false);
         })
     }
     // End

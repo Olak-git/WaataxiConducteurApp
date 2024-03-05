@@ -6,10 +6,10 @@ import Base from '../../../components/Base';
 import Header from '../../../components/Header';
 import tw from 'twrnc';
 import { ColorsEncr } from '../../../assets/styles';
-import { baseUri, fetchUri, getCurrency, getCurrentDate, toast } from '../../../functions/functions';
+import { api_ref, apiv3, baseUri, fetchUri, getCurrency, getCurrentDate, toast } from '../../../functions/functions';
 import BottomButton from '../../../components/BottomButton';
 import { WtCar1 } from '../../../assets';
-import { clone, getCoordinateAddress, getCurrentLocation, getErrorsToString, locationPermission, openCoordonateOnMap, openUrl, toTimestamp } from '../../../functions/helperFunction';
+import { clone, getCoordinateAddress, getCurrentLocation, getErrorResponse, getErrorsToString, locationPermission, openCoordonateOnMap, openUrl, toTimestamp } from '../../../functions/helperFunction';
 import { useDispatch, useSelector } from 'react-redux';
 import Spinner from 'react-native-spinkit';
 import { ModalValidationForm } from '../../../components/ModalValidationForm';
@@ -21,6 +21,7 @@ import { setDisponibiliteCourse, setDisponibiliteReservation } from '../../../fe
 import { CommonActions } from '@react-navigation/native';
 import { refreshHistoriqueReservations } from '../../../feature/refresh.slice';
 import { polices } from '../../../data/data';
+import { acceptReservationInstantRace, cancelReservationInstantRace, getClientRates, getRace, updateStateReservationOrInstantRace } from '../../../services/races';
 
 interface DetailsReservationViewProps {
     navigation: any,
@@ -77,7 +78,8 @@ const DetailsReservationView: React.FC<DetailsReservationViewProps> = (props) =>
             formData.append('upd-state-reservation', action);
             formData.append('token', user.slug);
             formData.append('course', course.slug);
-            fetch(fetchUri, {
+
+            fetch(apiv3 ? api_ref + '/update_state_reservation_or_instant_race.php' : fetchUri, {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -111,8 +113,11 @@ const DetailsReservationView: React.FC<DetailsReservationViewProps> = (props) =>
                 }
             })
             .catch(error => {
-                setVisible(false);
                 console.log(error)
+                getErrorResponse(error)
+            })
+            .finally(() => {
+                setVisible(false);
             })
         } else {
             console.log('IMPOSSIBLE TO START COURSE')
@@ -126,7 +131,8 @@ const DetailsReservationView: React.FC<DetailsReservationViewProps> = (props) =>
         formData.append('upd-state-reservation', 'prev-start');
         formData.append('token', user.slug);
         formData.append('course', course.slug);
-        fetch(fetchUri, {
+
+        fetch(apiv3 ? api_ref + '/update_state_reservation_or_instant_race.php' : fetchUri, {
             method: 'POST',
             body: formData,
             headers: {
@@ -148,8 +154,13 @@ const DetailsReservationView: React.FC<DetailsReservationViewProps> = (props) =>
             }
         })
         .catch(error => {
-            setVisible(false);
+            // setVisible(false);
             console.log(error)
+            getErrorResponse(error)
+        })
+        .finally(() => {
+            setVisible(false);
+            setLoading(false)
         })
     }
 
@@ -160,7 +171,8 @@ const DetailsReservationView: React.FC<DetailsReservationViewProps> = (props) =>
         formData.append('accept-reservation', null);
         formData.append('token', user.slug);
         formData.append('reservation', course.slug);
-        fetch(fetchUri, {
+
+        fetch(apiv3 ? api_ref + '/accept_reservation_instant_race.php' : fetchUri, {
             method: 'POST',
             body: formData,
             headers: {
@@ -184,8 +196,11 @@ const DetailsReservationView: React.FC<DetailsReservationViewProps> = (props) =>
             }
         })
         .catch(error => {
-            setVisible(false);
             console.log(error)
+            getErrorResponse(error)
+        })
+        .finally(() => {
+            setVisible(false);
         })
     }
 
@@ -196,7 +211,8 @@ const DetailsReservationView: React.FC<DetailsReservationViewProps> = (props) =>
         formData.append('canceled-reservation', null);
         formData.append('token', user.slug);
         formData.append('reservation', course.slug);
-        fetch(fetchUri, {
+
+        fetch(apiv3 ? api_ref + '/cancel_reservation_instant_race.php' : fetchUri, {
             method: 'POST',
             body: formData,
             headers: {
@@ -218,8 +234,12 @@ const DetailsReservationView: React.FC<DetailsReservationViewProps> = (props) =>
             }
         })
         .catch(error => {
-            setVisible(false);
+            // setVisible(false);
             console.log(error)
+            getErrorResponse(error)
+        })
+        .finally(() => {
+            setVisible(false);
         })
     }
 
@@ -244,7 +264,8 @@ const DetailsReservationView: React.FC<DetailsReservationViewProps> = (props) =>
         formData.append('js', null);
         formData.append('data-user', passager.slug);
         formData.append('token', user.slug);
-        fetch(fetchUri, {
+
+        fetch(apiv3 ? api_ref + '/get_client_rates.php' : fetchUri, {
             method: 'POST',
             body: formData,
             headers: {
@@ -262,6 +283,7 @@ const DetailsReservationView: React.FC<DetailsReservationViewProps> = (props) =>
         })
         .catch(error => {
             console.log(error);
+            getErrorResponse(error)
         })
     }
 
@@ -273,7 +295,8 @@ const DetailsReservationView: React.FC<DetailsReservationViewProps> = (props) =>
         formData.append('category', 'reservation-ci');
         formData.append('course', course.slug);
         formData.append('token', user.slug);
-        fetch(fetchUri, {
+
+        fetch(apiv3 ? api_ref + '/get_race.php' : fetchUri, {
             method: 'POST',
             body: formData,
             headers: {
@@ -299,6 +322,7 @@ const DetailsReservationView: React.FC<DetailsReservationViewProps> = (props) =>
         })
         .catch(error => {
             console.log(error);
+            getErrorResponse(error)
         })
     }
 

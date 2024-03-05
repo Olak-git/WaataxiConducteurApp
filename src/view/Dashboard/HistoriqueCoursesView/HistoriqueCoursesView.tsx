@@ -7,15 +7,16 @@ import { ColorsEncr } from '../../../assets/styles';
 import { Icon } from '@rneui/base';
 import SearchBar from '../../../components/SearchBar';
 import { useDispatch, useSelector } from 'react-redux';
-import { baseUri, fetchUri, getCurrency } from '../../../functions/functions';
+import { api_ref, apiv3, baseUri, fetchUri, getCurrency } from '../../../functions/functions';
 import { ActivityLoading } from '../../../components/ActivityLoading';
-import { characters_exists, getLocalDate, getLocalTime, getLocalTimeStr } from '../../../functions/helperFunction';
+import { characters_exists, getErrorResponse, getLocalDate, getLocalTime, getLocalTimeStr } from '../../../functions/helperFunction';
 import RenderItemCourseInstantane from '../../../components/RenderItemCourseInstantane';
 import RenderItemCourseCovoiturage from '../../../components/RenderItemCourseCovoiturage';
 import { setStoreHistoryCourses } from '../../../feature/courses.slice';
 import { RNSpinner } from '../../../components/RNSpinner';
 import { useNavigation } from '@react-navigation/native';
 import { polices } from '../../../data/data';
+import { getRaces } from '../../../services/races';
 
 const Body: React.FC<{spinner?: boolean, courses: any, endFetch: boolean, refreshing: boolean, onRefresh: ()=>void, courseEmptyText: string, renderItem?: any, refList: any}> = ({spinner, courses, endFetch, refreshing, onRefresh, courseEmptyText, renderItem, refList}) => {
     const disponibilite = useSelector((state: any) => state.init.disponibilite);const navigation = useNavigation();
@@ -156,7 +157,8 @@ const HistoriqueCoursesView: React.FC<HistoriqueCoursesViewProps> = ({ navigatio
         formData.append('token', user.slug);
         formData.append('courses', null);
         // console.log(user.slug);
-        fetch(fetchUri, {
+
+        fetch(apiv3 ? api_ref + '/get_races.php' : fetchUri, {
             method: 'POST',
             body: formData,
             headers: {
@@ -194,10 +196,12 @@ const HistoriqueCoursesView: React.FC<HistoriqueCoursesViewProps> = ({ navigatio
         })
         .catch(error => {
             console.log(error)
-            setRefreshing(false);
+            // setRefreshing(false);
+            getErrorResponse(error)
         })
         .finally(() => {
             setEndFetch(true);
+            setRefreshing(false);
         })
     }
 

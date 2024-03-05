@@ -4,7 +4,7 @@ import Base from '../../../components/Base';
 import Header, { HeaderTitle } from '../../../components/Header';
 import tw from 'twrnc';
 import { useDispatch, useSelector } from 'react-redux';
-import { baseUri, fetchUri, getCurrency } from '../../../functions/functions';
+import { api_ref, apiv3, baseUri, fetchUri, getCurrency } from '../../../functions/functions';
 import { Icon } from '@rneui/themed';
 import SearchBar from '../../../components/SearchBar';
 import { ActivityLoading } from '../../../components/ActivityLoading';
@@ -13,7 +13,8 @@ import { setStopped } from '../../../feature/init.slice';
 import { RNSpinner } from '../../../components/RNSpinner';
 import { clearStoreCourses, setCourseConfiguration, setStoreCourseInstantanee } from '../../../feature/courses.slice';
 import { polices } from '../../../data/data';
-import { characters_exists } from '../../../functions/helperFunction';
+import { characters_exists, getErrorResponse } from '../../../functions/helperFunction';
+import { getNewInstantRaces } from '../../../services/races';
 
 const timer = require('react-native-timer');
 
@@ -93,7 +94,7 @@ const CoursesDisposView: React.FC<CoursesDisposViewProps> = ({ navigation }) => 
 
             // console.log('formData: ', formData)
 
-            fetch(fetchUri, {
+            fetch(apiv3 ? api_ref + '/get_new_instant_races.php' : fetchUri, {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -125,6 +126,10 @@ const CoursesDisposView: React.FC<CoursesDisposViewProps> = ({ navigation }) => 
             })
             .catch(error => {
                 console.log(error)
+                // setRefreshing(false);
+                getErrorResponse(error)
+            })
+            .finally(() => {
                 setRefreshing(false);
             })
         } else {

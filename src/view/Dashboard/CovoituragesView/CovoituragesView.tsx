@@ -7,7 +7,7 @@ import { ColorsEncr } from '../../../assets/styles';
 import { Icon } from '@rneui/base';
 import SearchBar from '../../../components/SearchBar';
 import { useDispatch, useSelector } from 'react-redux';
-import { baseUri, fetchUri, getCurrency } from '../../../functions/functions';
+import { api_ref, apiv3, baseUri, fetchUri, getCurrency } from '../../../functions/functions';
 import { ActivityLoading } from '../../../components/ActivityLoading';
 import BottomButton from '../../../components/BottomButton';
 import RenderItemCourseCovoiturage from '../../../components/RenderItemCourseCovoiturage';
@@ -17,7 +17,8 @@ import { RNSpinner } from '../../../components/RNSpinner';
 import { useNavigation } from '@react-navigation/native';
 import { Snackbar } from 'react-native-paper';
 import { polices } from '../../../data/data';
-import { characters_exists } from '../../../functions/helperFunction';
+import { characters_exists, getErrorResponse } from '../../../functions/helperFunction';
+import { getCarsharings } from '../../../services/races';
 
 
 const Body: React.FC<{spinner?: boolean, refreshing: boolean, onRefresh: ()=>void, endFetch: boolean, covoiturages: Array<any>, covoiturageEmptyText: string, renderItem: any, refList: any}> = ({spinner, refreshing, onRefresh, endFetch, covoiturages, covoiturageEmptyText, renderItem, refList}) => {
@@ -88,7 +89,8 @@ const CovoituragesView: React.FC<CovoituragesViewProps> = ({ navigation }) => {
         formData.append('covoiturages', null);
         formData.append('token', user.slug);
         console.log(formData)
-        fetch(fetchUri, {
+
+        fetch(apiv3 ? api_ref + '/get_carsharings.php' : fetchUri, {
             method: 'POST',
             body: formData,
             headers: {
@@ -119,7 +121,13 @@ const CovoituragesView: React.FC<CovoituragesViewProps> = ({ navigation }) => {
                 console.log(errors);
             }
         })
-        .catch(error => console.log(error))
+        .catch(error => {
+            console.log(error)
+            getErrorResponse(error)
+        })
+        .finally(()=>{
+            setRefreshing(false);
+        })
     }
 
     const filterItemFunction = (text: string) => {

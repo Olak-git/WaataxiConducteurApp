@@ -5,10 +5,10 @@ import Base from '../../../components/Base';
 import Header from '../../../components/Header';
 import tw from 'twrnc';
 import { ColorsEncr } from '../../../assets/styles';
-import { baseUri, fetchUri, getCurrency, toast } from '../../../functions/functions';
+import { api_ref, apiv3, baseUri, fetchUri, getCurrency, toast } from '../../../functions/functions';
 import { Rating } from 'react-native-ratings';
 import Spinner from 'react-native-spinkit';
-import { getErrorsToString, getLocalTimeStr } from '../../../functions/helperFunction';
+import { getErrorResponse, getErrorsToString, getLocalTimeStr } from '../../../functions/helperFunction';
 import BottomButton from '../../../components/BottomButton';
 import { DataTable, Button } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,6 +19,7 @@ import FlashMessage from '../../../components/FlashMessage';
 import { setReload } from '../../../feature/reload.slice';
 import { refreshHistoriqueCovoiturages } from '../../../feature/refresh.slice';
 import { polices } from '../../../data/data';
+import { deleteCarsharing, getClientRates, getRace, getReservationsCarsharing, updatePriceReservationCarsharing, updateStateCarsharingRace } from '../../../services/races';
 
 interface RowProps {
     iconType: string,
@@ -112,7 +113,8 @@ const DetailsNewCovoiturageView: React.FC<DetailsNewCovoiturageViewProps> = (pro
         formData.append('reservations-covoiturage', null);
         formData.append('token', user.slug);
         formData.append('course', course.slug);
-        fetch(fetchUri, {
+
+        fetch(apiv3 ? api_ref + '/get_reservations_carsharing.php' : fetchUri, {
             method: 'POST',
             body: formData,
             headers: {
@@ -132,8 +134,12 @@ const DetailsNewCovoiturageView: React.FC<DetailsNewCovoiturageViewProps> = (pro
             setEndFetch(true);
         })
         .catch(error => {
-            setRefresh(false);
+            // setRefresh(false);
             console.log(error);
+            getErrorResponse(error)
+        })
+        .finally(() => {
+            setRefresh(false);
         })
     }
 
@@ -158,7 +164,7 @@ const DetailsNewCovoiturageView: React.FC<DetailsNewCovoiturageViewProps> = (pro
 
             // console.log('Form: ', formData);
 
-            fetch(fetchUri, {
+            fetch(apiv3 ? api_ref + '/update_price_reservation_carsharing.php' : fetchUri, {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -182,9 +188,14 @@ const DetailsNewCovoiturageView: React.FC<DetailsNewCovoiturageViewProps> = (pro
                 }
             })
             .catch(e => {
+                // setVisible(state => ({...state, modal: false}));
+                // setLoading(false);
+                console.warn(e)
+                getErrorResponse(e)
+            })
+            .finally(() => {
                 setVisible(state => ({...state, modal: false}));
                 setLoading(false);
-                console.warn(e)
             })
         }
     }
@@ -196,7 +207,8 @@ const DetailsNewCovoiturageView: React.FC<DetailsNewCovoiturageViewProps> = (pro
         formData.append('upd-state-covoiturage', action);
         formData.append('token', user.slug);
         formData.append('course', course.slug);
-        fetch(fetchUri, {
+
+        fetch(apiv3 ? api_ref + '/update_state_carsharing_race.php' : fetchUri, {
             method: 'POST',
             body: formData,
             headers: {
@@ -217,8 +229,12 @@ const DetailsNewCovoiturageView: React.FC<DetailsNewCovoiturageViewProps> = (pro
             }
         })
         .catch(error => {
-            setVisible(state => ({...state, modal: false}));
+            // setVisible(state => ({...state, modal: false}));
             console.log(error)
+            getErrorResponse(error)
+        })
+        .finally(() => {
+            setVisible(state => ({...state, modal: false}));
         })
     }
 
@@ -227,7 +243,8 @@ const DetailsNewCovoiturageView: React.FC<DetailsNewCovoiturageViewProps> = (pro
         formData.append('js', null);
         formData.append('data-user', conducteur.slug);
         formData.append('token', user.slug);
-        fetch(fetchUri, {
+
+        fetch(apiv3 ? api_ref + '/get_driver_rates.php' : fetchUri, {
             method: 'POST',
             body: formData,
             headers: {
@@ -245,6 +262,7 @@ const DetailsNewCovoiturageView: React.FC<DetailsNewCovoiturageViewProps> = (pro
         })
         .catch(error => {
             console.log(error);
+            getErrorResponse(error)
         })
     }
 
@@ -268,7 +286,8 @@ const DetailsNewCovoiturageView: React.FC<DetailsNewCovoiturageViewProps> = (pro
         formData.append('course', course.slug);
         formData.append('token', user.slug);
         // console.log(formData);
-        fetch(fetchUri, {
+
+        fetch(apiv3 ? api_ref + '/get_race.php' : fetchUri, {
             method: 'POST',
             body: formData,
             headers: {
@@ -287,6 +306,7 @@ const DetailsNewCovoiturageView: React.FC<DetailsNewCovoiturageViewProps> = (pro
         })
         .catch(error => {
             console.log(error);
+            getErrorResponse(error)
         })
     }
 
@@ -297,7 +317,8 @@ const DetailsNewCovoiturageView: React.FC<DetailsNewCovoiturageViewProps> = (pro
         formData.append('canceled-covoiturage', null);
         formData.append('token', user.slug);
         formData.append('course', course.slug);
-        fetch(fetchUri, {
+
+        fetch(apiv3 ? api_ref + '/delete_carsharing.php' : fetchUri, {
             method: 'POST',
             body: formData,
             headers: {
@@ -320,6 +341,7 @@ const DetailsNewCovoiturageView: React.FC<DetailsNewCovoiturageViewProps> = (pro
         })
         .catch(error => {
             console.log(error)
+            getErrorResponse(error)
         })
         .finally(()=>{
             setVisible(state => ({...state, modal: false}));

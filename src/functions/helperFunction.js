@@ -1,8 +1,8 @@
 // import { Dialog, Toast, ALERT_TYPE, Root } from 'react-native-alert-notification';
-import { Platform, PermissionsAndroid, Linking, Alert, NativeModules } from "react-native";
+import { Platform, PermissionsAndroid, Linking, Alert, NativeModules, ToastAndroid } from "react-native";
 import Geolocation from 'react-native-geolocation-service';
 import Geocoder from 'react-native-geocoding';
-import { getRandomInt } from "./functions";
+import { getRandomInt, toast } from "./functions";
 import { google_maps_apikey } from '../data/data';
 import {showLocation} from 'react-native-map-link';
 
@@ -425,6 +425,22 @@ export const openUrl = async (url) => {
 export const callPhoneNumber = (number) => {
     const phoneNumber = `${Platform.OS !== 'android' ? 'telprompt' : 'tel'}:${number}`;
     openUrl(phoneNumber);
+}
+
+export const getResponseJson = (response) => {
+    return response.json()
+}
+
+export const getErrorResponse = (error) => {
+    console.log({ ERROR: error.message });
+    if(error.message.toLowerCase()=='network request failed') {
+        // console.log('ADAGBOTO');
+        toast('DANGER', 'Connexion au serveur échouée.', false)
+    }
+}
+
+export const fetchOptions = {
+    
 }
 
 // const hasPermission = async () => {

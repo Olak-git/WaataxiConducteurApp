@@ -7,7 +7,7 @@ import { ColorsEncr } from '../../../assets/styles';
 import { Icon } from '@rneui/base';
 import SearchBar from '../../../components/SearchBar';
 import { useDispatch, useSelector } from 'react-redux';
-import { baseUri, fetchUri, getCurrency } from '../../../functions/functions';
+import { api_ref, apiv3, baseUri, fetchUri, getCurrency } from '../../../functions/functions';
 import { ActivityLoading } from '../../../components/ActivityLoading';
 import BottomButton from '../../../components/BottomButton';
 import { WtCar1 } from '../../../assets';
@@ -16,7 +16,8 @@ import { setStopped } from '../../../feature/init.slice';
 import { setStoreReservation } from '../../../feature/courses.slice';
 import { RNSpinner } from '../../../components/RNSpinner';
 import { polices } from '../../../data/data';
-import { characters_exists } from '../../../functions/helperFunction';
+import { characters_exists, getErrorResponse } from '../../../functions/helperFunction';
+import { getReservationsInstantRace } from '../../../services/races';
 
 const timer = require('react-native-timer')
 
@@ -89,7 +90,8 @@ const ReservationsView: React.FC<ReservationsViewProps> = ({ navigation }) => {
             formData.append('js', null);
             formData.append('token', user.slug);
             formData.append('reservations-course', null);
-            fetch(fetchUri, {
+
+            fetch(apiv3 ? api_ref + '/get_reservations_instant_race.php' : fetchUri, {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -113,9 +115,13 @@ const ReservationsView: React.FC<ReservationsViewProps> = ({ navigation }) => {
                     console.log(errors);
                 }
             })
-            .catch(error => console.log(error))
+            .catch(error => {
+                console.log(error)
+                getErrorResponse(error)
+            })
             .finally(() => {
                 setEndFetch(true);
+                setRefreshing(false);
             })
         }
     }

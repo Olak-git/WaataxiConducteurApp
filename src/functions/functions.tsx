@@ -27,7 +27,7 @@ export const toast = (type: TOAST_TYPE, message: string, close: boolean|number =
         type: ALERT_TYPE[type],
         title: title,
         textBody: message,
-        autoClose: close
+        autoClose: close,
     })
 }
 
@@ -252,8 +252,12 @@ export const {width: windowWidth, height: windowHeight} = Dimensions.get('window
 
 export const {width: screenWidth, height: screenHeight} = Dimensions.get('screen');
 
-const PRODUCTION = true;
+const PRODUCTION = false;
+
+export const apiv3 = true;
 
 export const baseUri = PRODUCTION ? 'https://app.waataxi.com' : 'http://192.168.8.101:8888/projects/api.waataxi';
 
 export const fetchUri = baseUri + '/mobile/v2/request-conducteur.php';
+
+export const api_ref = baseUri + '/mobile/v3/conducteur';

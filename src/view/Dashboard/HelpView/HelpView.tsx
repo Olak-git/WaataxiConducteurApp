@@ -7,12 +7,13 @@ import { ColorsEncr } from '../../../assets/styles';
 import { Divider, Icon } from '@rneui/base';
 import InputForm from '../../../components/InputForm';
 import TextareaForm from '../../../components/TextareaForm';
-import { fetchUri, toast, windowHeight } from '../../../functions/functions';
+import { api_ref, apiv3, fetchUri, toast, windowHeight } from '../../../functions/functions';
 import { useSelector } from 'react-redux';
 import { ModalValidationForm } from '../../../components/ModalValidationForm';
 import { google_maps_apikey, polices, waataxi_infos } from '../../../data/data';
-import { callPhoneNumber, openCoordonateOnMap, openUrl } from '../../../functions/helperFunction';
+import { callPhoneNumber, getErrorResponse, openCoordonateOnMap, openUrl } from '../../../functions/helperFunction';
 import Geocoder from 'react-native-geocoding';
+import { sendHelpMessage } from '../../../services/races';
 
 Geocoder.init(google_maps_apikey, {language : "fr"});
 
@@ -76,7 +77,8 @@ const HelpView: React.FC<HelpViewProps> = ({ navigation }) => {
             formData.append('account', 'conducteur');
             formData.append('help[objet]', inputs.objet);
             formData.append('help[message]', inputs.message);
-            fetch(fetchUri, {
+
+            fetch(apiv3 ? api_ref + '/send_help_message.php' : fetchUri, {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -103,8 +105,12 @@ const HelpView: React.FC<HelpViewProps> = ({ navigation }) => {
                 }
             })
             .catch(error => {
-                setShowModal(false);
+                // setShowModal(false);
                 console.log(error)
+                getErrorResponse(error)
+            })
+            .finally(() => {
+                setShowModal(false);
             })
         }
     }

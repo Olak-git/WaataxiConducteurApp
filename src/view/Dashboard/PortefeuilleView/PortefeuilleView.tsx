@@ -7,15 +7,16 @@ import { ColorsEncr } from '../../../assets/styles';
 import { Icon } from '@rneui/base';
 import InputForm from '../../../components/InputForm';
 import { useDispatch, useSelector } from 'react-redux';
-import { baseUri, fetchUri, getCurrency, toast } from '../../../functions/functions';
+import { api_ref, apiv3, baseUri, fetchUri, getCurrency, toast } from '../../../functions/functions';
 import { SpeedDial } from '@rneui/themed';
 import { setUser } from '../../../feature/user.slice';
 import { ModalValidationForm } from '../../../components/ModalValidationForm';
 import FlashMessage from '../../../components/FlashMessage';
 import WebView from 'react-native-webview';
 import { ActivityLoading } from '../../../components/ActivityLoading';
-import { getErrorsToString } from '../../../functions/helperFunction';
+import { getErrorResponse, getErrorsToString } from '../../../functions/helperFunction';
 import { polices } from '../../../data/data';
+import { get_cash, updateWallet } from '../../../services/races';
 
 interface PortefeuilleViewProps {
     navigation: any
@@ -81,8 +82,8 @@ const PortefeuilleView: React.FC<PortefeuilleViewProps> = ({ navigation }) => {
             formData.append(`get-cash`, null)
             formData.append('token', user.slug)
             formData.append('montant', inputs.montant)
-            
-            fetch(fetchUri, {
+
+            fetch(apiv3 ? api_ref + '/get_cash.php' : fetchUri, {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -105,8 +106,11 @@ const PortefeuilleView: React.FC<PortefeuilleViewProps> = ({ navigation }) => {
                 }
             })
             .catch(e => {
-                setVisible(false);
                 console.warn(e)
+                getErrorResponse(e)
+            })
+            .finally(() => {
+                setVisible(false);
             })
         }
     }
@@ -119,8 +123,8 @@ const PortefeuilleView: React.FC<PortefeuilleViewProps> = ({ navigation }) => {
         formData.append(`update-portefeuille`, null)
         formData.append('token', user.slug)
         formData.append('montant', inputs.mnt)
-        
-        fetch(fetchUri, {
+
+        fetch(apiv3 ? api_ref + '/update_wallet.php' : fetchUri, {
             method: 'POST',
             body: formData,
             headers: {
@@ -142,8 +146,11 @@ const PortefeuilleView: React.FC<PortefeuilleViewProps> = ({ navigation }) => {
             }
         })
         .catch(e => {
-            setVisible(false);
             console.warn(e)
+            getErrorResponse(e)
+        })
+        .finally(() => {
+            setVisible(false);
         })
     }
 

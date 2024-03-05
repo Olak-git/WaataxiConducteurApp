@@ -7,7 +7,7 @@ import Header from '../../../components/Header';
 import { Divider, Icon } from '@rneui/base';
 import { ColorsEncr } from '../../../assets/styles';
 import { useDispatch, useSelector } from 'react-redux';
-import { baseUri, fetchUri, getCurrency } from '../../../functions/functions';
+import { api_ref, apiv3, baseUri, fetchUri, getCurrency } from '../../../functions/functions';
 import { ModalValidationForm } from '../../../components/ModalValidationForm';
 import { setDisponibiliteCourse, setDisponibiliteReservation } from '../../../feature/init.slice';
 import Spinner from 'react-native-spinkit';
@@ -17,6 +17,8 @@ import { google_maps_apikey, polices } from '../../../data/data';
 import { setReload } from '../../../feature/reload.slice';
 import { addCourse, addReservation, deleteCourse, deleteReservation } from '../../../feature/course.slice';
 import Geocoder from 'react-native-geocoding';
+import { updateStateInstantRace, updateStateReservationOrInstantRace } from '../../../services/races';
+import { getErrorResponse } from '../../../functions/helperFunction';
 
 Geocoder.init(google_maps_apikey, {language : "fr"});
 
@@ -81,7 +83,10 @@ const FinitionView: React.FC<FinitionViewProps> = ({ navigation, route }) => {
         formData.append('course', course.slug);
         formData.append('nb_km_parcouru', D);
         // console.log('FormData: ', formData);
-        fetch(fetchUri, {
+
+        const uri = category == 'ci' ? 'update_state_instant_race.php' : 'update_state_reservation_or_instant_race.php';
+
+        fetch(apiv3 ? api_ref + `/${uri}` : fetchUri, {
             method: 'POST',
             body: formData,
             headers: {
@@ -103,6 +108,7 @@ const FinitionView: React.FC<FinitionViewProps> = ({ navigation, route }) => {
         })
         .catch(error => {
             console.log(error)
+            getErrorResponse(error)
         })
     }
 

@@ -6,11 +6,11 @@ import Base from '../../../components/Base';
 import tw from 'twrnc';
 import { ColorsEncr } from '../../../assets/styles';
 import ButtonMenu from './components/ButtonMenu';
-import { baseUri, fetchUri, getCurrency, toast, windowHeight, windowWidth } from '../../../functions/functions';
+import { api_ref, apiv3, baseUri, fetchUri, getCurrency, toast, windowHeight, windowWidth } from '../../../functions/functions';
 import { useDispatch, useSelector } from 'react-redux';
 import { Accueil } from '../../../assets';
 import { deleteUser, setUser } from '../../../feature/user.slice';
-import { clone, getErrorsToString, openUrl } from '../../../functions/helperFunction';
+import { clone, getErrorResponse, getErrorsToString, openUrl } from '../../../functions/helperFunction';
 import { ActivityIndicator, Badge, Switch as SwitchPaper } from 'react-native-paper';
 import { RNPModal } from '../../../components/RNPModal';
 import Spinner from 'react-native-spinkit';
@@ -23,6 +23,7 @@ import Geocoder from 'react-native-geocoding';
 import { ModalValidationForm } from '../../../components/ModalValidationForm';
 import { clearStoreCourses } from '../../../feature/courses.slice';
 import Lottie from 'lottie-react-native';
+import { refreshHomeScreen, updateStateAccount } from '../../../services/races';
 
 Geocoder.init(google_maps_apikey, {language : "fr"});
 
@@ -76,7 +77,8 @@ const HomeView: React.FC<HomeViewProps> = ({navigation, route}) => {
         formData.append('value', value);
         formData.append('token', user.slug)
         console.log('FormData: ', formData);
-        fetch(fetchUri, {
+
+        fetch(apiv3 ? api_ref + '/update_state_account.php' : fetchUri, {
             method: 'POST',
             body: formData
         })
@@ -106,8 +108,12 @@ const HomeView: React.FC<HomeViewProps> = ({navigation, route}) => {
             setDisabled(false);
         })
         .catch(e => {
-            setDisabled(false);
+            // setDisabled(false);
             console.warn(e)
+            getErrorResponse(e)
+        })
+        .finally(() => {
+            setDisabled(false);
         })
     }
 
@@ -117,7 +123,8 @@ const HomeView: React.FC<HomeViewProps> = ({navigation, route}) => {
             formData.append('js', null)
             formData.append(`refresh`, null)
             formData.append('token', user.slug)
-            fetch(fetchUri, {
+
+            fetch(apiv3 ? api_ref + '/refresh_home_screen.php' : fetchUri, {
                 method: 'POST',
                 body: formData
             })
@@ -181,8 +188,12 @@ const HomeView: React.FC<HomeViewProps> = ({navigation, route}) => {
                 setEnd(true);
             })
             .catch(e => {
-                setRefresh(false);
+                // setRefresh(false);
                 console.warn(e)
+                getErrorResponse(e)
+            })
+            .finally(() => {
+                setRefresh(false);
             })
         // }
     }

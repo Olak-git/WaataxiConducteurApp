@@ -6,8 +6,8 @@ import tw from 'twrnc';
 import { ColorsEncr } from '../../../assets/styles';
 import { Divider, Icon } from '@rneui/base';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUri, getCurrency, toast } from '../../../functions/functions';
-import { formatChaineHid, getErrorsToString } from '../../../functions/helperFunction';
+import { api_ref, apiv3, fetchUri, getCurrency, toast } from '../../../functions/functions';
+import { formatChaineHid, getErrorResponse, getErrorsToString } from '../../../functions/helperFunction';
 import { deleteUser, setUser } from '../../../feature/user.slice';
 import { ModalValidationForm } from '../../../components/ModalValidationForm';
 import { resetCoords } from '../../../feature/course.slice';
@@ -16,6 +16,7 @@ import { setStopped } from '../../../feature/init.slice';
 import DelAccount from './components/DelAccount';
 import { clearStoreCourses } from '../../../feature/courses.slice';
 import { polices } from '../../../data/data';
+import { deleteAccount } from '../../../services/races';
 
 interface ParametresViewProps {
     navigation: any
@@ -56,7 +57,8 @@ const ParametresView: React.FC<ParametresViewProps> = ({ navigation }) => {
         formData.append('js', null);
         formData.append('delete-account', true);
         formData.append('token', user.slug);
-        fetch(fetchUri, {
+
+        fetch(apiv3 ? api_ref + '/delete_account.php' : fetchUri, {
             method: 'POST',
             body: formData,
             headers: {
@@ -79,11 +81,14 @@ const ParametresView: React.FC<ParametresViewProps> = ({ navigation }) => {
             }
         })
         .catch(error => {
+            console.log(error)
+            getErrorResponse(error)
+        })
+        .finally(() => {
             dispatch(setStopped(false));
             setVisible(false);
             // setDialogDeletAccount(false);
-            console.log(error)
-        })        
+        })
     }
 
     useEffect(() => {

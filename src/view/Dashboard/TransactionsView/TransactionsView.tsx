@@ -5,10 +5,10 @@ import Base from '../../../components/Base';
 import Header, { HeaderTitle } from '../../../components/Header';
 import tw from 'twrnc';
 import { ColorsEncr } from '../../../assets/styles';
-import { baseUri, fetchUri, getCurrency, toast } from '../../../functions/functions';
+import { api_ref, apiv3, baseUri, fetchUri, getCurrency, toast } from '../../../functions/functions';
 import { Rating } from 'react-native-ratings';
 import Spinner from 'react-native-spinkit';
-import { getErrorsToString, getLocalTimeStr } from '../../../functions/helperFunction';
+import { getErrorResponse, getErrorsToString, getLocalTimeStr } from '../../../functions/helperFunction';
 import BottomButton from '../../../components/BottomButton';
 import { DataTable, Button } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,6 +19,7 @@ import FlashMessage from '../../../components/FlashMessage';
 import { setReload } from '../../../feature/reload.slice';
 import SearchBar from '../../../components/SearchBar';
 import { polices } from '../../../data/data';
+import { get_transactions } from '../../../services/races';
 
 interface RowProps {
     iconType: string,
@@ -74,7 +75,8 @@ const TransactionsView: React.FC<TransactionsViewProps> = ({navigation}) => {
         formData.append('js', null);
         formData.append('transactions', null);
         formData.append('token', user.slug);
-        fetch(fetchUri, {
+
+        fetch(apiv3 ? api_ref + '/get_transactions.php' : fetchUri, {
             method: 'POST',
             body: formData,
             headers: {
@@ -83,7 +85,7 @@ const TransactionsView: React.FC<TransactionsViewProps> = ({navigation}) => {
         })
         .then(response => response.json())
         .then(json => {
-            setRefresh(false);
+            // setRefresh(false);
             if(json.success) {
                 console.log('Transactions: ', json.transactions);
                 setTransactions([...json.transactions]);
@@ -93,11 +95,16 @@ const TransactionsView: React.FC<TransactionsViewProps> = ({navigation}) => {
                 console.log(errors);
                 toast('DANGER', getErrorsToString(errors), false);
             }
-            setEndFetch(true);
+            // setEndFetch(true);
         })
         .catch(error => {
-            setRefresh(false);
             console.log(error);
+            getErrorResponse(error)
+        })
+        .finally(() => {
+            setRefresh(false);
+            if(!endFetch)
+                setEndFetch(true);
         })
     }
 

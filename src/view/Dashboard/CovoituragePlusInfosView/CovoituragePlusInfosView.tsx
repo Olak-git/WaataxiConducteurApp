@@ -7,7 +7,7 @@ import { ColorsEncr } from '../../../assets/styles';
 import { CheckBox, Divider, Icon } from '@rneui/base';
 // import RNBottomSheet, { BottomSheetRefProps } from '../../../components/RNBottomSheet';
 import { GestureHandlerRootView, TouchableWithoutFeedback, ScrollView as GHScrollView, FlatList as GHFlatlist } from 'react-native-gesture-handler';
-import { fetchUri, getCurrency, toast } from '../../../functions/functions';
+import { api_ref, apiv3, fetchUri, getCurrency, toast } from '../../../functions/functions';
 import { CommonActions } from '@react-navigation/native';
 import DatePicker from 'react-native-date-picker';
 import InputForm from '../../../components/InputForm';
@@ -17,13 +17,14 @@ import { ActivityLoading } from '../../../components/ActivityLoading';
 import { ModalValidationForm } from '../../../components/ModalValidationForm';
 import FlashMessage from '../../../components/FlashMessage';
 import RNBottomSheet, { BottomSheetRefProps } from '../../../components/RNBottomSheet';
-import { getErrorsToString, getSqlFormatDate, getSqlFormatDateTime, getSqlFormatTime } from '../../../functions/helperFunction';
+import { getErrorResponse, getErrorsToString, getSqlFormatDate, getSqlFormatDateTime, getSqlFormatTime } from '../../../functions/helperFunction';
 import { setUser } from '../../../feature/user.slice';
 import { Button, Dialog, ListItem, Avatar } from '@rneui/themed';
 import { Toast, ALERT_TYPE } from 'react-native-alert-notification';
 import moment from 'moment';
 import RNDatePicker from '../../../components/RNDatePicker';
 import { polices } from '../../../data/data';
+import { newCarsharing } from '../../../services/races';
 
 const {height: screenHeight, width: screenWidth} = Dimensions.get('screen');
 
@@ -134,34 +135,6 @@ const CovoituragePlusInfosView: React.FC<CovoituragePlusInfosViewProps> = ({ nav
         }
     }
 
-    const callFnc = (formData: any) => {
-        fetch(fetchUri, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'Accept': 'application/json'
-            }
-        })
-        .then(response => response.json())
-        .then(json => {
-            toggleVisible('modal', false)
-            if(json.success) {
-                toast('SUCCESS', 'Votre course de covoiturage a bien été enregistrée.')
-                toggleVisible('dialog', true);
-            } else {
-                const errors = json.errors;
-                console.log('Errors: ', errors);
-                const txt = getErrorsToString(errors);
-                console.log('Err: ', txt);
-                toast('DANGER', txt)
-            }
-        })
-        .catch(error => {
-            toggleVisible('modal', false)
-            console.log(error)
-        });
-    }
-
     const onHandle = () => {
         Keyboard.dismiss();
 
@@ -249,7 +222,7 @@ const CovoituragePlusInfosView: React.FC<CovoituragePlusInfosViewProps> = ({ nav
 
             // console.log('FormData: ', formData);
 
-            fetch(fetchUri, {
+            fetch(apiv3 ? api_ref + '/new_carsharing.php' : fetchUri, {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -271,10 +244,13 @@ const CovoituragePlusInfosView: React.FC<CovoituragePlusInfosViewProps> = ({ nav
                 }
             })
             .catch(error => {
-                toggleVisible('modal', false)
+                // toggleVisible('modal', false)
                 console.log(error)
-            });
-            // callFnc(formData);
+                getErrorResponse(error)
+            })
+            .finally(() => {
+                toggleVisible('modal', false)
+            })
         }
     }
 

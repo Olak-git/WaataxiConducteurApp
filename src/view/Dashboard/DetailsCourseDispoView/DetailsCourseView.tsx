@@ -6,10 +6,10 @@ import Base from '../../../components/Base';
 import Header from '../../../components/Header';
 import tw from 'twrnc';
 import { ColorsEncr } from '../../../assets/styles';
-import { baseUri, fetchUri, getCurrency, toast } from '../../../functions/functions';
+import { api_ref, apiv3, baseUri, fetchUri, getCurrency, toast } from '../../../functions/functions';
 import Spinner from 'react-native-spinkit';
 import { WtCar1 } from '../../../assets';
-import { callPhoneNumber, getCoordinateAddress, getCurrentLocation, getErrorsToString, locationPermission, openCoordonateOnMap, openUrl, watchCurrentLocation } from '../../../functions/helperFunction';
+import { callPhoneNumber, getCoordinateAddress, getCurrentLocation, getErrorResponse, getErrorsToString, locationPermission, openCoordonateOnMap, openUrl, watchCurrentLocation } from '../../../functions/helperFunction';
 import { ModalValidationForm } from '../../../components/ModalValidationForm';
 import FlashMessage from '../../../components/FlashMessage';
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,6 +22,7 @@ import { refreshHistoriqueCoures } from '../../../feature/refresh.slice';
 import { Toast, ALERT_TYPE } from 'react-native-alert-notification';
 import { Button, IconButton } from 'react-native-paper';
 import { polices } from '../../../data/data';
+import { acceptInstantRace, cancelInstantRace, getClientRates, getRace, updateStateInstantRace } from '../../../services/races';
 
 interface DetailsCourseViewProps {
     navigation: any,
@@ -81,7 +82,8 @@ const DetailsCourseView: React.FC<DetailsCourseViewProps> = (props) => {
             formData.append('upd-state-course', action);
             formData.append('token', user.slug);
             formData.append('course', course.slug);
-            fetch(fetchUri, {
+
+            fetch(apiv3 ? api_ref + '/update_state_instant_race.php' : fetchUri, {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -116,8 +118,12 @@ const DetailsCourseView: React.FC<DetailsCourseViewProps> = (props) => {
                 }
             })
             .catch(error => {
-                setVisible(false);
+                // setVisible(false);
                 console.log(error)
+                getErrorResponse(error)
+            })
+            .finally(() => {
+                setVisible(false);
             })
         } else {
             console.log('IMPOSSIBLE TO START COURSE')
@@ -131,7 +137,8 @@ const DetailsCourseView: React.FC<DetailsCourseViewProps> = (props) => {
         formData.append('upd-state-course', 'prev-start');
         formData.append('token', user.slug);
         formData.append('course', course.slug);
-        fetch(fetchUri, {
+
+        fetch(apiv3 ? api_ref + '/update_state_instant_race.php' : fetchUri, {
             method: 'POST',
             body: formData,
             headers: {
@@ -153,8 +160,14 @@ const DetailsCourseView: React.FC<DetailsCourseViewProps> = (props) => {
             }
         })
         .catch(error => {
-            setVisible(false);
+            // setLoading(false);
+            // setVisible(false)
             console.log(error)
+            getErrorResponse(error)
+        })
+        .finally(() => {
+            setLoading(false);
+            setVisible(false);
         })
     }
 
@@ -165,7 +178,8 @@ const DetailsCourseView: React.FC<DetailsCourseViewProps> = (props) => {
         formData.append('accept-course', null);
         formData.append('token', user.slug);
         formData.append('course', course.slug);
-        fetch(fetchUri, {
+
+        fetch(apiv3 ? api_ref + '/accept_instant_race.php' : fetchUri, {
             method: 'POST',
             body: formData,
             headers: {
@@ -188,8 +202,12 @@ const DetailsCourseView: React.FC<DetailsCourseViewProps> = (props) => {
             }
         })
         .catch(error => {
-            setVisible(false);
+            // setVisible(false);
             console.log(error)
+            getErrorResponse(error)
+        })
+        .finally(() => {
+            setVisible(false);
         })
     }
 
@@ -200,7 +218,8 @@ const DetailsCourseView: React.FC<DetailsCourseViewProps> = (props) => {
         formData.append('canceled-course', null);
         formData.append('token', user.slug);
         formData.append('course', course.slug);
-        fetch(fetchUri, {
+
+        fetch(apiv3 ? api_ref + '/cancel_instant_race.php' : fetchUri, {
             method: 'POST',
             body: formData,
             headers: {
@@ -222,8 +241,12 @@ const DetailsCourseView: React.FC<DetailsCourseViewProps> = (props) => {
             }
         })
         .catch(error => {
-            setVisible(false);
+            // setVisible(false);
             console.log(error)
+            getErrorResponse(error)
+        })
+        .finally(() => {
+            setVisible(false);
         })
     }
 
@@ -241,7 +264,8 @@ const DetailsCourseView: React.FC<DetailsCourseViewProps> = (props) => {
         formData.append('data-user', passager.slug);
         formData.append('token', user.slug);
         console.log('data-user');
-        fetch(fetchUri, {
+
+        fetch(apiv3 ? api_ref + '/get_client_rates.php' : fetchUri, {
             method: 'POST',
             body: formData,
             headers: {
@@ -259,6 +283,7 @@ const DetailsCourseView: React.FC<DetailsCourseViewProps> = (props) => {
         })
         .catch(error => {
             console.log(error);
+            getErrorResponse(error)
         })
     }
 
@@ -270,7 +295,8 @@ const DetailsCourseView: React.FC<DetailsCourseViewProps> = (props) => {
         formData.append('category', 'ci');
         formData.append('course', course.slug);
         formData.append('token', user.slug);
-        fetch(fetchUri, {
+
+        fetch(apiv3 ? api_ref + '/get_race.php' : fetchUri, {
             method: 'POST',
             body: formData,
             headers: {
@@ -296,6 +322,7 @@ const DetailsCourseView: React.FC<DetailsCourseViewProps> = (props) => {
         })
         .catch(error => {
             console.log(error);
+            getErrorResponse(error)
         })
     }
 
